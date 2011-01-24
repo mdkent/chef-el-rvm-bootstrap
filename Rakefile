@@ -1,8 +1,8 @@
 require 'rake/packagetask'
 
-NAME = "bootstrap"
+NAME = "el_cookbooks-bootstrap"
 PACKAGE_DIR = "tmp"
-INCLUDE_FILES = "*"
+INCLUDE_FILES = "**/*"
 EXCLUDE_FILES = "Rakefile", "tmp"
 
 Rake::PackageTask.new(NAME, :noversion) do |p|
