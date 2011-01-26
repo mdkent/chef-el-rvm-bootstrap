@@ -20,6 +20,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+recipe_name = self.recipe_name
+cookbook_name = self.cookbook_name
+
 gem_package "chef" do
   version node[:chef][:client_version]
 end
@@ -64,7 +67,21 @@ template "/etc/chef/client.rb" do
   notifies :create, resources(:ruby_block => "reload_client_config")
 end
 
-template"/etc/init.d/chef-client" do
+%w{chef-client chef-solo knife ohai shef}.each do |bin|
+  template "/usr/bin/#{bin}" do
+    source "rvm_wrapper.bin.erb"
+    owner "root"
+    group "root" 
+    mode 0755
+    variables(
+      :recipe_name => recipe_name,
+      :cookbook_name => cookbook_name,
+      :binary => bin
+    )
+  end
+end
+
+template "/etc/init.d/chef-client" do
   source "chef-client.init.erb"
   owner "root"
   group "root" 

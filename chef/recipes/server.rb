@@ -65,6 +65,18 @@ server_services.each do |svc, cfg|
     notifies :restart, resources( :service => svc), :delayed
   end
 
+  template "/usr/bin/#{svc}" do
+    source "rvm_wrapper.bin.erb"
+    owner "root"
+    group "root" 
+    mode 0755
+    variables(
+      :recipe_name => recipe_name,
+      :cookbook_name => cookbook_name,
+      :binary => svc 
+    )
+  end
+
   template"/etc/init.d/#{svc}" do
     source "#{svc}.init.erb"
     owner "root"
@@ -110,5 +122,19 @@ end
         nil
       end
     end
+  end
+end
+
+%w{chef-solr-rebuild}.each do |bin|
+  template "/usr/bin/#{bin}" do
+    source "rvm_wrapper.bin.erb"
+    owner "root"
+    group "root" 
+    mode 0755
+    variables(
+      :recipe_name => recipe_name,
+      :cookbook_name => cookbook_name,
+      :binary => bin
+    )
   end
 end

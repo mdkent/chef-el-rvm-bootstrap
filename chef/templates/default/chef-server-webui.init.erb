@@ -40,15 +40,14 @@ adapter=thin
 childpidfiles=<%= @node[:chef][:run_path] %>/server-webui.%s.pid
 user=chef
 group=chef
-rvmruby=<%= @node[:chef][:rvm_ruby] %>
-rvmbinary=<%= @node[:chef][:rvm_binary] %>
 # Any additional chef-server-webui options.
 options=
 
 start() {
+    [ -x $exec ] || exit 5
     [ -f $config ] || exit 6
     echo -n $"Starting $prog: "
-    daemon $rvmbinary $rvmruby exec \
+    daemon \ 
     $prog -d -C "$config" -L "$logfile" -p "$port" -e "$env" -a "$adapter" \
           -P "$childpidfiles" -u "$user" -G "$group" "$options" "&>/dev/null"
     retval=$?
