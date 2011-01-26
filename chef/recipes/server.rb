@@ -73,14 +73,6 @@ server_services.each do |svc, cfg|
     notifies :restart, resources( :service => svc), :delayed
   end
 
-  template "/etc/sysconfig/#{svc}" do
-    source "#{svc}.sysconfig.erb"
-    owner "root"
-    group "root" 
-    mode 0644
-    notifies :restart, resources( :service => svc), :delayed
-  end
-
   template "/etc/logrotate.d/#{svc}" do
     source "#{svc}.logrotate.erb"
     owner "root"

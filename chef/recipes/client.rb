@@ -71,13 +71,6 @@ template"/etc/init.d/chef-client" do
   mode 0755
 end
 
-template "/etc/sysconfig/chef-client" do
-  source "chef-client.sysconfig.erb"
-  owner "root"
-  group "root" 
-  mode 0644
-end
-
 template "/etc/logrotate.d/chef-client" do
   source "chef-client.logrotate.erb"
   owner "root"
