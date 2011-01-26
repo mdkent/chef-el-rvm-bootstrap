@@ -1,4 +1,6 @@
 #
+# Modified By:: Matthew Kent
+# Original Author:: Opscode, Inc.
 # Cookbook Name:: zlib
 # Recipe:: default
 #
@@ -15,11 +17,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
 
 package "zlib-devel" do
-  package_name value_for_platform(
-    [ "centos", "redhat", "suse", "fedora" ] => { "default" => "zlib-devel" },
-    "default" => 'zlib1g-dev'
-  )
+  action :install
 end

@@ -1,5 +1,7 @@
 #
-# Author:: Joshua Timberman <joshua@opscode.com>
+# Modified By:: Matthew Kent
+# Original Author:: Opscode, Inc.
+# Original Author:: Joshua Timberman <joshua@opscode.com>
 # Cookbook Name:: couchdb
 # Recipe:: default
 #
@@ -20,30 +22,19 @@
 include_recipe "erlang"
 
 package "couchdb" do
-  package_name value_for_platform(
-    "openbsd" => { "default" => "apache-couchdb" },
-    "gentoo" => { "default" => "dev-db/couchdb" },
-    "default" => "couchdb"
-  )
+  action :install 
 end
 
 directory "/var/lib/couchdb" do
   owner "couchdb"
   group "couchdb"
   recursive true
-  path value_for_platform(
-    "openbsd" => { "default" => "/var/couchdb" },
-    "freebsd" => { "default" => "/var/couchdb" },
-    "gentoo" => { "default" => "/var/couchdb" },
-    "default" => "/var/lib/couchdb"
-  )
+  path "/var/lib/couchdb"
 end
 
 service "couchdb" do
-  if platform?("centos","redhat","fedora")
-    start_command "/sbin/service couchdb start &> /dev/null"
-    stop_command "/sbin/service couchdb stop &> /dev/null"
-  end
+  start_command "/sbin/service couchdb start &> /dev/null"
+  stop_command "/sbin/service couchdb stop &> /dev/null"
   supports [ :restart, :status ]
   action [ :enable, :start ]
 end

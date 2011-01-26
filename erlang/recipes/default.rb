@@ -1,6 +1,8 @@
+#
+# Modified By:: Matthew Kent
+# Original Author:: Joe Williams <joe@joetify.com>
 # Cookbook Name:: erlang
 # Recipe:: default
-# Author:: Joe Williams <joe@joetify.com>
 #
 # Copyright 2008-2009, Joe Williams
 #
@@ -15,13 +17,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
 
-case node[:platform]
-when "debian", "ubuntu"
-  erlpkg = node[:erlang][:gui_tools] ? "erlang" : "erlang-nox"
-  package erlpkg
-  package "erlang-dev"
-else
-  package "erlang"
+package "erlang" do
+  action :install
 end

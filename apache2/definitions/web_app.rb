@@ -1,4 +1,6 @@
 #
+# Modified By:: Matthew Kent
+# Original Author:: Opscode, Inc.
 # Cookbook Name:: apache2
 # Definition:: web_app
 #
@@ -15,7 +17,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
 
 define :web_app, :template => "web_app.conf.erb" do
   

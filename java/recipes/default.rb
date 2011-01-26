@@ -1,4 +1,6 @@
 #
+# Modified By:: Matthew Kent
+# Original Author:: Opscode, Inc.
 # Cookbook Name:: java
 # Recipe:: default
 #
@@ -15,10 +17,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
-include_recipe "java::#{node["java"]["install_flavor"]}"
-
-current_java_version_pattern = (node.java.install_flavor == 'sun') ? /Java HotSpot\(TM\)/ : /^OpenJDK/
 
 # force ohai to run and pick up new languages.java data
 ruby_block "reload_ohai" do
@@ -30,34 +28,11 @@ ruby_block "reload_ohai" do
   action :nothing
 end
 
-execute "update-java-alternatives" do
-  command "update-java-alternatives --jre -s java-6-#{node["java"]["install_flavor"]}"
-  returns 0
-  only_if do platform?("ubuntu", "debian") end
-  action :nothing
+package "java-1.6.0-openjdk" do
+  action :install
   notifies :create, resources(:ruby_block => "reload_ohai"), :immediately
 end
 
-node.run_state[:java_pkgs].each do |pkg|
-  package pkg do
-    action :install
-    if platform?("ubuntu", "debian")
-      if node.java.install_flavor == "sun"
-        response_file "java.seed"
-      end
-      notifies :run, resources(:execute => "update-java-alternatives"), :delayed
-    end
-  end
+package "java-1.6.0-openjdk-devel" do
+  action :install
 end
-
-# re-run update-java-alternatives if our java flavor changes
-if node.languages.attribute?("java")
-  unless node.languages.java.hotspot.name.match(current_java_version_pattern)
-    log "Java install_flavor has changed, re-running 'update-java-alternatives'" do
-      level :info
-      notifies :run, resources(:execute => "update-java-alternatives"), :immediately
-    end
-  end
-end
-
-node.run_state.delete(:java_pkgs)

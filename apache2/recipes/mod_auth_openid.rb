@@ -1,4 +1,6 @@
 #
+# Modified By:: Matthew Kent
+# Original Author:: Opscode, Inc.
 # Cookbook Name:: apache2
 # Recipe:: mod_auth_openid
 #
@@ -15,7 +17,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
 
 openid_dev_pkgs = value_for_platform(
   "ubuntu" => { "default" => %w{ apache2-prefork-dev libopkele-dev libopkele3 } },
