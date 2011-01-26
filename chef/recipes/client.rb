@@ -1,6 +1,7 @@
 #
-# Author:: Joshua Timberman <joshua@opscode.com>
-# Author:: Joshua Sierles <joshua@37signals.com>
+# Modified By:: Matthew Kent
+# Original Author:: Joshua Timberman <joshua@opscode.com>
+# Original Author:: Joshua Sierles <joshua@37signals.com>
 # Cookbook Name:: chef
 # Recipe:: client
 #
@@ -19,11 +20,34 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-root_group = value_for_platform(
-  "openbsd" => { "default" => "wheel" },
-  "freebsd" => { "default" => "wheel" },
-  "default" => "root"
-)
+gem_package "chef" do
+  version node[:chef][:client_version]
+end
+
+user "chef" do
+  system true
+  shell "/sbin/nologin"
+  home node[:chef][:path]
+end
+
+chef_dirs = [
+  "/etc/chef",
+  node[:chef][:path],
+  node[:chef][:serve_path],
+  node[:chef][:run_path],
+  node[:chef][:cache_path],
+  node[:chef][:backup_path],
+  node[:chef][:log_dir]
+].uniq
+
+chef_dirs.each do |dir|
+  directory dir do
+    recursive true
+    owner "chef"
+    group "root" 
+    mode 0755
+  end
+end
 
 ruby_block "reload_client_config" do
   block do
@@ -35,9 +59,30 @@ end
 template "/etc/chef/client.rb" do
   source "client.rb.erb"
   owner "root"
-  group root_group
-  mode "644"
+  group "root"
+  mode 0644
   notifies :create, resources(:ruby_block => "reload_client_config")
+end
+
+template"/etc/init.d/chef-client" do
+  source "chef-client.init.erb"
+  owner "root"
+  group "root" 
+  mode 0755
+end
+
+template "/etc/sysconfig/chef-client" do
+  source "chef-client.sysconfig.erb"
+  owner "root"
+  group "root" 
+  mode 0644
+end
+
+template "/etc/logrotate.d/chef-client" do
+  source "chef-client.logrotate.erb"
+  owner "root"
+  group "root" 
+  mode 0644
 end
 
 log "Add the chef::delete_validation recipe to the run list to remove the #{Chef::Config[:validation_key]}." do

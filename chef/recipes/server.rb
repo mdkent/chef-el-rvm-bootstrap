@@ -1,6 +1,7 @@
 #
-# Author:: Joshua Timberman <joshua@opscode.com>
-# Author:: Joshua Sierles <joshua@37signals.com>
+# Modified By:: Matthew Kent
+# Original Author:: Joshua Timberman <joshua@opscode.com>
+# Original Author:: Joshua Sierles <joshua@37signals.com>
 # Cookbook Name:: chef
 # Recipe:: server
 #
@@ -19,35 +20,76 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-root_group = value_for_platform(
-  "openbsd" => { "default" => "wheel" },
-  "freebsd" => { "default" => "wheel" },
-  "default" => "root"
-)
-
 include_recipe "chef::client"
 
-%w{chef-solr chef-solr-indexer chef-server}.each do |svc|
-  service svc do
-    action :nothing
+include_recipe "java"
+include_recipe "couchdb"
+include_recipe "rabbitmq_chef"
+include_recipe "zlib"
+include_recipe "xml"
+
+server_gems = %w{ chef-server-api chef-solr }
+server_services = { 
+  "chef-server"       => "server",
+  "chef-solr"         => "solr",
+  "chef-solr-indexer" => "solr-indexer"
+}
+
+if node.chef.attribute?("webui_enabled")
+  server_gems << "chef-server-webui"
+  server_services["chef-server-webui"] = "webui"
+end
+
+server_gems.each do |gem|
+  gem_package gem do
+    version node.chef.server_version
   end
 end
 
-if node[:chef][:webui_enabled]
-  service "chef-server-webui" do
-    action :nothing
-  end
+directory "/etc/chef/certificates" do
+  owner "chef"
+  group "root"
+  mode 0700
 end
 
-template "/etc/chef/server.rb" do
-  source "server.rb.erb"
-  owner "root"
-  group root_group
-  mode "644"
-  if node[:chef][:webui_enabled]
-    notifies :restart, resources( :service => [ "chef-solr", "chef-solr-indexer", "chef-server", "chef-server-webui" ]), :delayed
-  else
-    notifies :restart, resources( :service => [ "chef-solr", "chef-solr-indexer", "chef-server" ]), :delayed
+server_services.each do |svc, cfg|
+  service "#{svc}" do
+    action :nothing 
+  end
+
+  template "/etc/chef/#{cfg}.rb" do
+    source "#{cfg}.rb.erb"
+    owner "chef"
+    group "root"
+    mode 0600
+    notifies :restart, resources( :service => svc), :delayed
+  end
+
+  template"/etc/init.d/#{svc}" do
+    source "#{svc}.init.erb"
+    owner "root"
+    group "root" 
+    mode 0755
+    notifies :restart, resources( :service => svc), :delayed
+  end
+
+  template "/etc/sysconfig/#{svc}" do
+    source "#{svc}.sysconfig.erb"
+    owner "root"
+    group "root" 
+    mode 0644
+    notifies :restart, resources( :service => svc), :delayed
+  end
+
+  template "/etc/logrotate.d/#{svc}" do
+    source "#{svc}.logrotate.erb"
+    owner "root"
+    group "root" 
+    mode 0644
+  end
+
+  service "#{svc}" do
+    action [ :enable, :start ]
   end
 end
 

@@ -1,5 +1,6 @@
 #
-# Author:: Joshua Timberman <joshua@opscode.com>
+# Modified By:: Matthew Kent
+# Original Author:: Joshua Timberman <joshua@opscode.com>
 # Cookbook Name:: chef
 # Attributes:: default
 #
@@ -19,21 +20,12 @@
 
 default[:chef][:umask]      = "0022"
 default[:chef][:url_type]   = "http"
-default[:chef][:init_style] = "runit"
 
-case platform
-when "openbsd","freebsd"
-  default[:chef][:path]       = "/var/chef"
-  default[:chef][:run_path]   = "/var/run"
-  default[:chef][:cache_path] = "/var/chef/cache"
-  default[:chef][:serve_path] = "/var/chef"
-else
-  default[:chef][:path]       = "/srv/chef"
-  default[:chef][:serve_path] = "/srv/chef"
-  default[:chef][:run_path]   = "#{chef[:path]}/run"
-  default[:chef][:cache_path] = "#{chef[:path]}/cache"
-  default[:chef][:backup_path] = "#{chef[:path]}/backup"
-end
+default[:chef][:path]       = "/var/lib/chef"
+default[:chef][:serve_path] = "/var/lib/chef"
+default[:chef][:run_path]   = "/var/run/chef"
+default[:chef][:cache_path] = "/var/cache/chef"
+default[:chef][:backup_path] = "/var/lib/chef/backup"
 
 default[:chef][:server_version]  = node.chef_packages.chef[:version]
 default[:chef][:client_version]  = node.chef_packages.chef[:version]
