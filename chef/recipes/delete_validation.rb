@@ -1,5 +1,6 @@
 #
-# Author:: Joshua Timberman <joshua@opscode.com>
+# Modified By:: Matthew Kent
+# Original Author:: Joshua Timberman <joshua@opscode.com>
 # Cookbook Name:: chef
 # Recipe:: delete_validation
 #

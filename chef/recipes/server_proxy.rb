@@ -1,5 +1,6 @@
 #
-# Author:: Joshua Timberman <joshua@opscode.com>
+# Modified By:: Matthew Kent
+# Original Author:: Joshua Timberman <joshua@opscode.com>
 # Cookbook Name:: chef
 # Recipe:: server_proxy
 #
@@ -16,12 +17,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
-root_group = value_for_platform(
-  "openbsd" => { "default" => "wheel" },
-  "freebsd" => { "default" => "wheel" },
-  "default" => "root"
-)
 
 node[:apache][:listen_ports] << "443" unless node[:apache][:listen_ports].include?("443")
 if node[:chef][:webui_enabled]
@@ -41,7 +36,7 @@ include_recipe "apache2::mod_deflate"
 
 directory "/etc/chef/certificates" do
   owner "root"
-  group root_group
+  group "root" 
   mode "700"
 end
 
