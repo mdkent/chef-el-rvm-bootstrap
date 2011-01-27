@@ -20,6 +20,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+recipe_name = self.recipe_name
+cookbook_name = self.cookbook_name
+
 include_recipe "chef::client"
 
 include_recipe "java"
@@ -63,6 +66,10 @@ server_services.each do |svc, cfg|
     group "root"
     mode 0600
     notifies :restart, resources( :service => svc), :delayed
+    variables(
+      :recipe_name => recipe_name,
+      :cookbook_name => cookbook_name,
+    )
   end
 
   template "/usr/bin/#{svc}" do
@@ -83,6 +90,10 @@ server_services.each do |svc, cfg|
     group "root" 
     mode 0755
     notifies :restart, resources( :service => svc), :delayed
+    variables(
+      :recipe_name => recipe_name,
+      :cookbook_name => cookbook_name,
+    )
   end
 
   template "/etc/logrotate.d/#{svc}" do
@@ -90,6 +101,10 @@ server_services.each do |svc, cfg|
     owner "root"
     group "root" 
     mode 0644
+    variables(
+      :recipe_name => recipe_name,
+      :cookbook_name => cookbook_name,
+    )
   end
 
   service "#{svc}" do

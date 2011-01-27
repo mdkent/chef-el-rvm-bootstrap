@@ -59,12 +59,18 @@ ruby_block "reload_client_config" do
   action :nothing
 end
 
-template "/etc/chef/client.rb" do
-  source "client.rb.erb"
-  owner "root"
-  group "root"
-  mode 0644
-  notifies :create, resources(:ruby_block => "reload_client_config")
+%w{client solo}.each do |cfg|
+  template "/etc/chef/#{cfg}.rb" do
+    source "#{cfg}.rb.erb"
+    owner "root"
+    group "root"
+    mode 0644
+    notifies :create, resources(:ruby_block => "reload_client_config")
+    variables(
+      :recipe_name => recipe_name,
+      :cookbook_name => cookbook_name,
+    )
+  end
 end
 
 %w{chef-client chef-solo knife ohai shef}.each do |bin|
@@ -86,6 +92,10 @@ template "/etc/init.d/chef-client" do
   owner "root"
   group "root" 
   mode 0755
+  variables(
+    :recipe_name => recipe_name,
+    :cookbook_name => cookbook_name,
+  )
 end
 
 template "/etc/logrotate.d/chef-client" do
@@ -93,6 +103,10 @@ template "/etc/logrotate.d/chef-client" do
   owner "root"
   group "root" 
   mode 0644
+  variables(
+    :recipe_name => recipe_name,
+    :cookbook_name => cookbook_name,
+  )
 end
 
 log "Add the chef::delete_validation recipe to the run list to remove the #{Chef::Config[:validation_key]}." do
