@@ -1,6 +1,6 @@
 require 'rake/packagetask'
 
-NAME = "el_cookbooks-bootstrap"
+NAME = "chef-el-bootstrap"
 PACKAGE_DIR = "tmp"
 INCLUDE_FILES = "**/*"
 EXCLUDE_FILES = "Rakefile", "tmp"
