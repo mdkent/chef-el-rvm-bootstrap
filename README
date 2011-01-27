@@ -1,5 +1,5 @@
-Enterprise Linux Cookbooks for Chef
-===================================
+Chef Enterprise Linux Bootstrap
+===============================
 
 Alternative CentOS/RHEL Chef client/server rubygems bootstrap using rvm.
 
