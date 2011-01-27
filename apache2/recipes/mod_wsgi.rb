@@ -18,11 +18,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-case node[:platform]
-when "debian","ubuntu"
-  package "libapache2-mod-wsgi"
-when "redhat","centos","fedora", "arch"
-  package "mod_wsgi"
-end
+package "mod_wsgi"
 
 apache_module "wsgi"

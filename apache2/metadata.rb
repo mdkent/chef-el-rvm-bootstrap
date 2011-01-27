@@ -8,7 +8,6 @@ recipe "apache2", "Main Apache configuration"
 recipe "apache2::mod_alias", "Apache module 'alias' with config file"
 recipe "apache2::mod_auth_basic", "Apache module 'auth_basic'"
 recipe "apache2::mod_auth_digest", "Apache module 'auth_digest'"
-recipe "apache2::mod_auth_openid", "Apache module 'authopenid'"
 recipe "apache2::mod_authn_file", "Apache module 'authn_file'"
 recipe "apache2::mod_authnz_ldap", "Apache module 'authnz_ldap'"
 recipe "apache2::mod_authz_default", "Apache module 'authz_default'"
@@ -23,7 +22,7 @@ recipe "apache2::mod_deflate", "Apache module 'deflate' with config file"
 recipe "apache2::mod_dir", "Apache module 'dir' with config file"
 recipe "apache2::mod_env", "Apache module 'env'"
 recipe "apache2::mod_expires", "Apache module 'expires'"
-recipe "apache2::mod_fcgid", "Apache module 'fcgid', package on ubuntu/debian, rhel/centos, compile source on suse; with config file"
+recipe "apache2::mod_fcgid", "Apache module 'fcgid', package on rhel/centos; with config file"
 recipe "apache2::mod_headers", "Apache module 'headers'"
 recipe "apache2::mod_ldap", "Apache module 'ldap'"
 recipe "apache2::mod_log_config", "Apache module 'log_config'"
@@ -120,11 +119,6 @@ attribute "apache/traceenable",
   :display_name => "Apache Trace Enable",
   :description => "Determine behavior of TRACE requests",
   :default => "On"
-
-attribute "apache/allowed_openids",
-  :display_name => "Apache Allowed OpenIDs",
-  :description => "Array of OpenIDs allowed to authenticate",
-  :default => ""
 
 attribute "apache/prefork",
   :display_name => "Apache Prefork",

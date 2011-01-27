@@ -18,16 +18,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-case node[:platform]
-  when "debian", "ubuntu"
-    package "libapache2-mod-python" do
-      action :install
-    end
-  when "centos", "redhat", "fedora"
-    package "mod_python" do
-      action :install
-      notifies :run, resources(:execute => "generate-module-list"), :immediately
-    end
+package "mod_python" do
+  action :install
+  notifies :run, resources(:execute => "generate-module-list"), :immediately
 end
 
 apache_module "python"
