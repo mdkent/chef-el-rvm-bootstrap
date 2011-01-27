@@ -70,11 +70,11 @@ Getting Started
 
 1. Install packages to support an rvm install
 
-    yum install -y curl git
+       yum install -y curl git
 
 2. Install rvm system wide (http://rvm.beginrescueend.com/deployment/system-wide/)
 
-    bash < <( curl -L http://bit.ly/rvm-install-system-wide )
+       bash < <( curl -L http://bit.ly/rvm-install-system-wide )
 
 This will install the most current version of rvm into /usr/local/rvm.
 
@@ -85,13 +85,13 @@ This will install the most current version of rvm into /usr/local/rvm.
 
 3. Install packages so rvm can build ruby
 
-    yum install -y gcc-c++ patch readline readline-devel zlib zlib-devel \
-        libyaml-devel libffi-devel openssl-devel bzip2 make which
+       yum install -y gcc-c++ patch readline readline-devel zlib zlib-devel \
+           libyaml-devel libffi-devel openssl-devel bzip2 make which
 
 4. Chose a ruby version and install, 1.9.2 is the default for the bootstrap.
 
-    rvm list known
-    rvm install 1.9.2
+       rvm list known
+       rvm install 1.9.2
 
 > By default rvm will connect to the internet to download the ruby packages to
 > compile. If this is a problem you should install your own copy of rvm from
@@ -100,7 +100,8 @@ This will install the most current version of rvm into /usr/local/rvm.
 
 5. Next we use rvm to create an isolated gemset for Chef and install it
 
-    rvm 1.9.2 exec rvm gemset create chef
-    rvm 1.9.2@chef gem install chef
+       rvm 1.9.2 exec rvm gemset create chef
+       rvm 1.9.2@chef gem install chef
 
-    rvm 1.9.2@chef exec chef-solo -c solo.rb -j ~/chef.json -r el_cookbooks-bootstrap.tar.gz
+    rvm 1.9.2@chef exec chef-solo -c solo.rb -j ~/chef.json \
+        -r el_cookbooks-bootstrap.tar.gz
