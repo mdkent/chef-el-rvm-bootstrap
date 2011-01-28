@@ -21,7 +21,7 @@ Goal
 
 The goal of this project is to provide an install of Chef that's nearly
 contained to /usr/local and doesn't conflict with any existing rpm installed
-ruby-* or rubygem-* packages. The aim is to make this a more palatable
+ruby- or rubygem- packages. The aim is to make this a more palatable
 alternative for environments typically only comfortable with rpm packaged
 software.
 
@@ -43,9 +43,11 @@ lack of backwards compatibility (typically). These strict dependencies
 effectively freeze the version I can provide in the rpms. The rpms then grow
 ever outdated making them impossible to submit for inclusion in distributions
 like Fedora or even conflicting with other software that may need a newer
-version of the gem. It really boils down to a fundamental incompatibility
-between rubygems being able to happily install multiple versions of the same
-gem and rpm only able to install one.
+version of the gem. 
+
+It really boils down to a fundamental incompatibility between rubygems being
+able to happily install multiple versions of the same gem and rpm only able to
+install one.
 
 
 Support
@@ -68,11 +70,17 @@ Opscode cookbooks (http://github.com/opscode/cookbooks) and modified.
 Getting Started
 ---------------
 
-1. Install packages to support an rvm install
+Assuming root access on a fresh basic CentOS 5.5 install:
+
+1. Install the EPEL repositories for git
+
+       rpm -Uvh http://download.fedora.redhat.com/pub/epel/5/i386/epel-release-5-4.noarch.rpm
+
+2. Install packages to support an rvm install
 
        yum install -y curl git
 
-2. Install rvm system wide (http://rvm.beginrescueend.com/deployment/system-wide/)
+3. Install rvm system wide (http://rvm.beginrescueend.com/deployment/system-wide/)
 
        bash < <( curl -L http://bit.ly/rvm-install-system-wide )
 
@@ -83,12 +91,12 @@ Getting Started
    > clone the rvm repository, change the clone location in 
    > contrib/install-system-wide and install using curl in the same fashion.
 
-3. Install packages so rvm can build ruby
+4. Install packages so rvm can build ruby
 
        yum install -y gcc-c++ patch readline readline-devel zlib zlib-devel \
            libyaml-devel libffi-devel openssl-devel bzip2 make which
 
-4. Chose a ruby version and install, 1.9.2 is the default for the bootstrap.
+5. Chose a ruby version and install, 1.9.2 is the default for the bootstrap.
 
        rvm list known
        rvm install 1.9.2
@@ -98,10 +106,28 @@ Getting Started
    > from your own repository (see above) where you can modify the config/db 
    > file to point at an internal server.
 
-5. Next we use rvm to create an isolated gemset for Chef and install it
+6. Next we use rvm to create an isolated gemset for Chef and install it
 
        rvm 1.9.2 exec rvm gemset create chef
        rvm 1.9.2@chef gem install chef
+
+7. Finally we can use chef-solo to run the bootstrap
+   1. Minimal server
+
+       cat<<EOF>solo.rb
+       file_cache_path "/tmp/chef-solo"
+       cookbook_path "/tmp/chef-solo/cookbooks"
+       EOF
+
+       cat<<EOF>chef.json
+       {
+         "chef": {
+           "server_url": "http://localhost:4000",
+           "webui_enabled": true
+         },
+         "run_list": [ "recipe[chef::server_proxy]" ]
+       }
+       EOF
 
        rvm 1.9.2@chef exec chef-solo -c solo.rb -j ~/chef.json \
            -r el_cookbooks-bootstrap.tar.gz
