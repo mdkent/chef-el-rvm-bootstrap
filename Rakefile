@@ -26,7 +26,7 @@ task :build_bootstrap do
     chdir(PACKAGE_FULL) do
         sh %{mkdir cookbooks}
         sh %{mv -f * cookbooks || :}
-        sh %{tar zcvf ../#{PACKAGE_FULL}.tar.gz .}
+        sh %{tar zcvf ../#{PACKAGE_FULL}.tar.gz cookbooks}
     end
   end
 end

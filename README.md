@@ -1,7 +1,8 @@
 Chef Enterprise Linux Bootstrap
 ===============================
 
-Alternative CentOS/RHEL Chef client/server rubygems bootstrap using rvm.
+Alternative CentOS/RHEL Chef client/server rubygems bootstrap using
+[rvm](http://rvm.beginrescueend.com/).
 
 
 About
@@ -35,13 +36,13 @@ Supported Distributions
 Getting Started
 ---------------
 
-Assuming root access on a fresh basic CentOS 5.5 install:
+Assuming root access on a fresh, basic, CentOS 5.5 install:
 
 1. Install the EPEL repositories for git
 
        rpm -Uvh http://download.fedora.redhat.com/pub/epel/5/i386/epel-release-5-4.noarch.rpm
 
-2. Install packages to support an rvm install
+2. Install packages to support rvm's installation
 
        yum install -y curl git
 
@@ -52,8 +53,8 @@ Assuming root access on a fresh basic CentOS 5.5 install:
    This will install the most current version of rvm into /usr/local/rvm.
 
    > Alternately if you need to install this on a server with no internet
-   > connectivity or simply want to lock into a specific rvm version you can 
-   > clone the rvm repository, change the clone location in 
+   > connectivity or simply want to lock into a specific rvm version you can
+   > clone the rvm repository, change the clone location in
    > contrib/install-system-wide and install using curl in the same fashion.
 
 4. Install packages so rvm can build ruby
@@ -66,9 +67,9 @@ Assuming root access on a fresh basic CentOS 5.5 install:
        rvm list known
        rvm install 1.9.2
 
-   > By default rvm will connect to the internet to download the ruby packages 
+   > By default rvm will connect to the internet to download the ruby packages
    > to compile. If this is a problem you should install your own copy of rvm
-   > from your own repository (see above) where you can modify the config/db 
+   > from your own repository (see above) where you can modify the config/db
    > file to point at an internal server.
 
 6. Next we use rvm to create an isolated gemset for Chef and install it
@@ -83,7 +84,7 @@ Assuming root access on a fresh basic CentOS 5.5 install:
        file_cache_path "/tmp/chef-solo"
        cookbook_path "/tmp/chef-solo/cookbooks"
        EOF
-       
+
 8. Next we either chose a type of chef server or a client install. First time
    users should setup a 'Standard Server'. You can either download and modify
    the following JSON or pass it to chef-solo directly
@@ -92,17 +93,57 @@ Assuming root access on a fresh basic CentOS 5.5 install:
    * [Standard Server + Proxy](https://github.com/mdkent/chef-el-bootstrap/raw/master/chef-server-api-webui-proxy.json)
      - API and WebUI with an Apache proxy in front good for public facing access
    * [Minimal Server](https://github.com/mdkent/chef-el-bootstrap/raw/master/chef-server-api.json)
-     - only API 
+     - only API
 
    Alternately a client install can be
-   [obtained here](https://github.com/mdkent/chef-el-bootstrap/raw/master/chef-client.json)
+   [obtained here](https://github.com/mdkent/chef-el-bootstrap/raw/master/chef-client.json
    though this will likely need to be modified for the correct server_url.
 
-8. Finally we can run the Chef bootstrap 
+9. Finally we get to the bootstrap cookbooks. You can either
+   download them from
+   [the packages here](https://github.com/mdkent/chef-el-bootstrap/archives/master),
+   build them from this repository with
 
-        rvm 1.9.2@chef exec chef-solo -c solo.rb \
-            -j https://github.com/mdkent/chef-el-bootstrap/raw/master/chef-server-api-webui.json  \
-            -r https://github.com/mdkent/chef-el-bootstrap/tarball/master
+       rake build_bootstrap
+
+   or, by picking the right url to make chef-solo happy (open-uri doesn't like
+   the github redirect), reference them directly via
+
+   http://cloud.github.com/downloads/mdkent/chef-el-bootstrap/chef-el-bootstrap-0.9.12-1.tar.gz
+
+10. We are all set to run the Chef bootstrap. chef-solo can be invoked purely local:
+
+       rvm 1.9.2@chef exec chef-solo -c solo.rb \
+           -j chef-server-api-webui.json \
+           -r chef-el-bootstrap-0.9.12-1.tar.gz 
+
+   or looking at remote example urls:
+
+       rvm 1.9.2@chef exec chef-solo -c solo.rb \
+           -j https://github.com/mdkent/chef-el-bootstrap/raw/master/chef-server-api-webui.json \
+           -r http://cloud.github.com/downloads/mdkent/chef-el-bootstrap/chef-el-bootstrap-0.9.12-1.tar.gz 
+
+Assuming chef-solo completes without incident you should now have a fully
+configured and functioning chef server or client.
+
+The server bootstrap does *not* enable the chef-client service by default as
+some may prefer to run it on demand. The chef::client_service recipe must be
+added to the server's run list to enable this.
+
+
+Post Config
+-----------
+
+Among the many things the bootstrap setups up some notable items are
+
+* chef configs - /etc/chef/
+* init scripts - /etc/init.d/chef-*
+* logrotate configs - /etc/logrotate.d/chef-*
+* rvm wrappers - /usr/bin/chef-*,knife,ohai,shef
+* logs - /var/log/chef/
+
+The cookbooks used in the bootstrap should be suitable to form the base of a
+Chef cookbook repository to upload to the server and have it maintain itself.
 
 
 History
@@ -127,9 +168,11 @@ install one.
 Support
 -------
 
-Please do not contact Opscode via their ticketing system or irc channels.
-Please contact me directly via the github Issue tracker or directly at
-mkent@magoazul.com
+For issues with this bootstrap please contact me via the github Issue tracker
+or directly at mkent@magoazul.com.
+
+Opscode Inc, their mailing lists, irc channels and issue tracker provide no
+support for this repository.
 
 git pull requests welcome :)
 
