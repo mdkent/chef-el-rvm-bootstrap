@@ -76,12 +76,12 @@ Getting Started
 
        bash < <( curl -L http://bit.ly/rvm-install-system-wide )
 
-This will install the most current version of rvm into /usr/local/rvm.
+   This will install the most current version of rvm into /usr/local/rvm.
 
-> Alternately if you need to install this on a server with no internet
-> connectivity or simply want to lock into a specific rvm version you can clone
-> the rvm repository, change the clone location in contrib/install-system-wide
-> and install using curl in the same fashion.
+   > Alternately if you need to install this on a server with no internet
+   > connectivity or simply want to lock into a specific rvm version you can 
+   > clone the rvm repository, change the clone location in 
+   > contrib/install-system-wide and install using curl in the same fashion.
 
 3. Install packages so rvm can build ruby
 
@@ -93,15 +93,15 @@ This will install the most current version of rvm into /usr/local/rvm.
        rvm list known
        rvm install 1.9.2
 
-> By default rvm will connect to the internet to download the ruby packages to
-> compile. If this is a problem you should install your own copy of rvm from
-> your own repository (see above) where you can modify the config/db file to
-> point at an internal server.
+   > By default rvm will connect to the internet to download the ruby packages 
+   > to compile. If this is a problem you should install your own copy of rvm
+   > from your own repository (see above) where you can modify the config/db 
+   > file to point at an internal server.
 
 5. Next we use rvm to create an isolated gemset for Chef and install it
 
        rvm 1.9.2 exec rvm gemset create chef
        rvm 1.9.2@chef gem install chef
 
-    rvm 1.9.2@chef exec chef-solo -c solo.rb -j ~/chef.json \
-        -r el_cookbooks-bootstrap.tar.gz
+       rvm 1.9.2@chef exec chef-solo -c solo.rb -j ~/chef.json \
+           -r el_cookbooks-bootstrap.tar.gz
