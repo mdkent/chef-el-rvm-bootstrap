@@ -101,7 +101,7 @@ Assuming root access on a fresh, basic, CentOS 5.5 install:
 
 9. Finally we get to the bootstrap cookbooks. You can either
    download them from
-   [the packages here](https://github.com/mdkent/chef-el-bootstrap/archives/master),
+   [the packages page here](https://github.com/mdkent/chef-el-bootstrap/archives/master),
    build them from this repository with
 
        rake build_bootstrap
@@ -113,15 +113,15 @@ Assuming root access on a fresh, basic, CentOS 5.5 install:
 
 10. We are all set to run the Chef bootstrap. chef-solo can be invoked purely local:
 
-       rvm 1.9.2@chef exec chef-solo -c solo.rb \
-           -j chef-server-api-webui.json \
-           -r chef-el-bootstrap-0.9.12-1.tar.gz 
+        rvm 1.9.2@chef exec chef-solo -c solo.rb \
+            -j chef-server-api-webui.json \
+            -r chef-el-bootstrap-0.9.12-1.tar.gz 
 
-   or looking at remote example urls:
+    or looking at remote example urls:
 
-       rvm 1.9.2@chef exec chef-solo -c solo.rb \
-           -j https://github.com/mdkent/chef-el-bootstrap/raw/master/chef-server-api-webui.json \
-           -r http://cloud.github.com/downloads/mdkent/chef-el-bootstrap/chef-el-bootstrap-0.9.12-1.tar.gz 
+        rvm 1.9.2@chef exec chef-solo -c solo.rb \
+            -j https://github.com/mdkent/chef-el-bootstrap/raw/master/chef-server-api-webui.json \
+            -r http://cloud.github.com/downloads/mdkent/chef-el-bootstrap/chef-el-bootstrap-0.9.12-1.tar.gz 
 
 Assuming chef-solo completes without incident you should now have a fully
 configured and functioning chef server or client.
