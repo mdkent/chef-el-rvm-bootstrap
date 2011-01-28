@@ -25,46 +25,11 @@ ruby- or rubygem- packages. The aim is to make this a more palatable
 alternative for environments typically only comfortable with rpm packaged
 software.
 
+
 Supported Distributions
 -----------------------
 
 * CentOS 5.5
-
-
-History
--------
-
-Until recently I've been maintaining a series of rpm packages for Chef and it's
-many dependencies for those, such as my employer and myself, who were
-uncomfortable with a purely rubygems based install of any critical software.
-These packages functioned reasonably well initially but overtime have become
-problematic as Chef has to add strict dependencies on certain gems due to a
-lack of backwards compatibility (typically). These strict dependencies
-effectively freeze the version I can provide in the rpms. The rpms then grow
-ever outdated making them impossible to submit for inclusion in distributions
-like Fedora or even conflicting with other software that may need a newer
-version of the gem. 
-
-It really boils down to a fundamental incompatibility between rubygems being
-able to happily install multiple versions of the same gem and rpm only able to
-install one.
-
-
-Support
--------
-
-Please do not contact Opscode via their ticketing system or irc channels.
-Please contact me directly via the github Issue tracker or directly at
-mkent@magoazul.com
-
-git pull requests welcome :)
-
-
-Credit
-------
-
-The cookbooks used in this repository have been duplicated from the official
-Opscode cookbooks (http://github.com/opscode/cookbooks) and modified.
 
 
 Getting Started
@@ -111,23 +76,66 @@ Assuming root access on a fresh basic CentOS 5.5 install:
        rvm 1.9.2 exec rvm gemset create chef
        rvm 1.9.2@chef gem install chef
 
-7. Finally we can use chef-solo to run the bootstrap
-   1. Minimal server
+7. Now we can move on to the actual Chef install. First we need a temporary
+   config for chef-solo to do it's work:
 
        cat<<EOF>solo.rb
        file_cache_path "/tmp/chef-solo"
        cookbook_path "/tmp/chef-solo/cookbooks"
        EOF
+       
+8. Next we either chose a type of chef server or a client install. First time
+   users should setup a 'Standard Server'. You can either download and modify
+   the following JSON or pass it to chef-solo directly
+   * Standard Server - API and WebUI:
+     https://github.com/mdkent/chef-el-bootstrap/raw/master/chef-server-api-webui.json
+   * Standard Server + Proxy - API and WebUI with an Apache proxy in front,
+     good for public facing access: 
+     https://github.com/mdkent/chef-el-bootstrap/raw/master/chef-server-api-webui-proxy.json
+   * Minimal Server - only API: 
+     https://github.com/mdkent/chef-el-bootstrap/raw/master/chef-server-api.json
 
-       cat<<EOF>chef.json
-       {
-         "chef": {
-           "server_url": "http://localhost:4000",
-           "webui_enabled": true
-         },
-         "run_list": [ "recipe[chef::server_proxy]" ]
-       }
-       EOF
+   Alternately a client install can be obtained at
+   https://github.com/mdkent/chef-el-bootstrap/raw/master/chef-client.json
+   though this will likely need to be modified for the correct server_url.
 
-       rvm 1.9.2@chef exec chef-solo -c solo.rb -j ~/chef.json \
-           -r el_cookbooks-bootstrap.tar.gz
+8. Finally we can run Chef  
+
+        rvm 1.9.2@chef exec chef-solo -c solo.rb \
+            -j https://github.com/mdkent/chef-el-bootstrap/raw/master/chef-server-api-webui.json  \
+            -r https://github.com/mdkent/chef-el-bootstrap/tarball/master
+
+History
+-------
+
+Until recently I've been maintaining a series of rpm packages for Chef and it's
+many dependencies for those, such as my employer and myself, who were
+uncomfortable with a purely rubygems based install of any critical software.
+These packages functioned reasonably well initially but overtime have become
+problematic as Chef has to add strict dependencies on certain gems due to a
+lack of backwards compatibility (typically). These strict dependencies
+effectively freeze the version I can provide in the rpms. The rpms then grow
+ever outdated making them impossible to submit for inclusion in distributions
+like Fedora or even conflicting with other software that may need a newer
+version of the gem. 
+
+It really boils down to a fundamental incompatibility between rubygems being
+able to happily install multiple versions of the same gem and rpm only able to
+install one.
+
+
+Support
+-------
+
+Please do not contact Opscode via their ticketing system or irc channels.
+Please contact me directly via the github Issue tracker or directly at
+mkent@magoazul.com
+
+git pull requests welcome :)
+
+
+Credit
+------
+
+The cookbooks used in this repository have been duplicated from the official
+Opscode cookbooks (http://github.com/opscode/cookbooks) and modified.
