@@ -87,23 +87,23 @@ Assuming root access on a fresh basic CentOS 5.5 install:
 8. Next we either chose a type of chef server or a client install. First time
    users should setup a 'Standard Server'. You can either download and modify
    the following JSON or pass it to chef-solo directly
-   * Standard Server - API and WebUI:
-     https://github.com/mdkent/chef-el-bootstrap/raw/master/chef-server-api-webui.json
-   * Standard Server + Proxy - API and WebUI with an Apache proxy in front,
-     good for public facing access: 
-     https://github.com/mdkent/chef-el-bootstrap/raw/master/chef-server-api-webui-proxy.json
-   * Minimal Server - only API: 
-     https://github.com/mdkent/chef-el-bootstrap/raw/master/chef-server-api.json
+   * [Standard Server](https://github.com/mdkent/chef-el-bootstrap/raw/master/chef-server-api-webui.json)
+     - API and WebUI
+   * [Standard Server + Proxy](https://github.com/mdkent/chef-el-bootstrap/raw/master/chef-server-api-webui-proxy.json)
+     - API and WebUI with an Apache proxy in front good for public facing access
+   * [Minimal Server](https://github.com/mdkent/chef-el-bootstrap/raw/master/chef-server-api.json)
+     - only API 
 
-   Alternately a client install can be obtained at
-   https://github.com/mdkent/chef-el-bootstrap/raw/master/chef-client.json
+   Alternately a client install can be
+   [obtained here](https://github.com/mdkent/chef-el-bootstrap/raw/master/chef-client.json)
    though this will likely need to be modified for the correct server_url.
 
-8. Finally we can run Chef  
+8. Finally we can run the Chef bootstrap 
 
         rvm 1.9.2@chef exec chef-solo -c solo.rb \
             -j https://github.com/mdkent/chef-el-bootstrap/raw/master/chef-server-api-webui.json  \
             -r https://github.com/mdkent/chef-el-bootstrap/tarball/master
+
 
 History
 -------
