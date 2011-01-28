@@ -78,7 +78,7 @@ Assuming root access on a fresh, basic, CentOS 5.5 install:
        rvm 1.9.2@chef gem install chef
 
 7. Now we can move on to the actual Chef install. First we need a temporary
-   config for chef-solo to do it's work:
+   config for chef-solo to extract and execute our bootstrap cookbooks:
 
        cat<<EOF>solo.rb
        file_cache_path "/tmp/chef-solo"
@@ -96,7 +96,7 @@ Assuming root access on a fresh, basic, CentOS 5.5 install:
      - only API
 
    Alternately a client install can be
-   [obtained here](https://github.com/mdkent/chef-el-bootstrap/raw/master/chef-client.json
+   [obtained here](https://github.com/mdkent/chef-el-bootstrap/raw/master/chef-client.json)
    though this will likely need to be modified for the correct server_url.
 
 9. Finally we get to the bootstrap cookbooks. You can either
@@ -111,17 +111,18 @@ Assuming root access on a fresh, basic, CentOS 5.5 install:
 
    http://cloud.github.com/downloads/mdkent/chef-el-bootstrap/chef-el-bootstrap-0.9.12-1.tar.gz
 
-10. We are all set to run the Chef bootstrap. chef-solo can be invoked purely local:
+10. We are all set to run the Chef bootstrap. chef-solo can be invoked with
+    local files:
 
         rvm 1.9.2@chef exec chef-solo -c solo.rb \
             -j chef-server-api-webui.json \
             -r chef-el-bootstrap-0.9.12-1.tar.gz 
 
-    or looking at remote example urls:
+    or looking at remote urls:
 
         rvm 1.9.2@chef exec chef-solo -c solo.rb \
             -j https://github.com/mdkent/chef-el-bootstrap/raw/master/chef-server-api-webui.json \
-            -r http://cloud.github.com/downloads/mdkent/chef-el-bootstrap/chef-el-bootstrap-0.9.12-1.tar.gz 
+            -r http://cloud.github.com/downloads/mdkent/chef-el-bootstrap/chef-el-bootstrap-0.9.12-1.tar.gz
 
 Assuming chef-solo completes without incident you should now have a fully
 configured and functioning chef server or client.
