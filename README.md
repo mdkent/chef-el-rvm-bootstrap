@@ -141,11 +141,11 @@ Helpful Hints
 -------------
 
 * Among the many items the bootstrap sets up some notable points are
- * chef configs - /etc/chef/
- * init scripts - /etc/init.d/chef-*
- * logrotate configs - /etc/logrotate.d/chef-*
- * rvm wrappers - /usr/bin/chef-*,knife,ohai,shef
- * logs - /var/log/chef/
+  * chef configs - /etc/chef/
+  * init scripts - /etc/init.d/chef-*
+  * logrotate configs - /etc/logrotate.d/chef-*
+  * rvm wrappers - /usr/bin/chef-*,knife,ohai,shef
+  * logs - /var/log/chef/
 * The cookbooks used in the bootstrap should be suitable to form the base of a
 Chef cookbook repository to upload to the server and have it maintain itself.
 
