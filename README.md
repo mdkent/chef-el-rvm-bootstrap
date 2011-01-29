@@ -131,19 +131,22 @@ The server bootstrap does *not* enable the chef-client service by default as
 some may prefer to run it on demand. The chef::client_service recipe must be
 added to the server's run list to enable this.
 
+Congratulations, the bootstrap is done - you can now move on to configuring your
+copy of knife as per the
+[Opscode wiki](http://wiki.opscode.com/display/chef/Bootstrap+Chef+RubyGems+Installation#BootstrapChefRubyGemsInstallation-ConfiguretheCommandLineClient)
+and start uploading some cookbooks!
 
-Post Config
------------
 
-Among the many things the bootstrap setups up some notable items are
+Helpful Hints
+-------------
 
-* chef configs - /etc/chef/
-* init scripts - /etc/init.d/chef-*
-* logrotate configs - /etc/logrotate.d/chef-*
-* rvm wrappers - /usr/bin/chef-*,knife,ohai,shef
-* logs - /var/log/chef/
-
-The cookbooks used in the bootstrap should be suitable to form the base of a
+* Among the many items the bootstrap sets up some notable points are
+ * chef configs - /etc/chef/
+ * init scripts - /etc/init.d/chef-*
+ * logrotate configs - /etc/logrotate.d/chef-*
+ * rvm wrappers - /usr/bin/chef-*,knife,ohai,shef
+ * logs - /var/log/chef/
+* The cookbooks used in the bootstrap should be suitable to form the base of a
 Chef cookbook repository to upload to the server and have it maintain itself.
 
 
