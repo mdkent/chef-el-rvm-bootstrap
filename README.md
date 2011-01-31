@@ -132,7 +132,9 @@ some may prefer to run it on demand. The chef::client_service recipe must be
 added to the server's run list to enable this.
 
 Congratulations, the bootstrap is done - you can now move on to configuring your
-copy of knife as per the
+copy of 
+[knife](http://help.opscode.com/kb/chefbasics/knife)
+as per the
 [Opscode wiki](http://wiki.opscode.com/display/chef/Bootstrap+Chef+RubyGems+Installation#BootstrapChefRubyGemsInstallation-ConfiguretheCommandLineClient)
 and start uploading some cookbooks!
 
