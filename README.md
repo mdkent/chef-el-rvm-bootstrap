@@ -22,7 +22,7 @@ Goal
 
 The goal of this project is to provide an install of Chef that's nearly
 contained to /usr/local and doesn't conflict with any existing rpm installed
-ruby- or rubygem- packages. The aim is to make this a more palatable
+ruby- or rubygem- packages. The aim is to make this a more palpable
 alternative for environments typically only comfortable with rpm packaged
 software.
 
