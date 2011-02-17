@@ -26,6 +26,9 @@ ruby- or rubygem- packages. The aim is to make this a more palpable
 alternative for environments typically only comfortable with rpm packaged
 software.
 
+This method should not override or interfere with the distribution approved
+ruby or its dependencies.
+
 
 Supported Distributions
 -----------------------
@@ -149,7 +152,11 @@ Helpful Hints
   * rvm wrappers - /usr/bin/chef-*,knife,ohai,shef
   * logs - /var/log/chef/
 * The cookbooks used in the bootstrap should be suitable to form the base of a
-Chef cookbook repository to upload to the server and have it maintain itself.
+  Chef cookbook repository to upload to the server and have it maintain itself.
+* No cookbook is provided for management of rvm itself or to leverage it for
+  future app deploys. For this 
+  [I suggest chef-rvm](https://github.com/fnichol/chef-rvm).
+  Though be warned with this setup: a broken rvm install means a broken Chef!
 
 
 History
