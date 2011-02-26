@@ -27,8 +27,6 @@
 exec="/usr/bin/chef-server-webui"
 prog="chef-server-webui"
 
-[ -f /etc/sysconfig/$prog ] && . /etc/sysconfig/$prog
-
 # Configuration file for the chef-server-webui service
 config=/etc/chef/webui.rb
 pidfile=<%= @node[:chef][:run_path] %>/server-webui.main.pid

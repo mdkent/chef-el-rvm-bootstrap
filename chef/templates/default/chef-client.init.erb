@@ -27,8 +27,6 @@
 exec="/usr/bin/chef-client"
 prog="chef-client"
 
-[ -e /etc/sysconfig/$prog ] && . /etc/sysconfig/$prog
-
 # Configuration file for the chef-client service
 config=/etc/chef/client.rb
 pidfile=<%= @node[:chef][:run_path] %>/client.pid

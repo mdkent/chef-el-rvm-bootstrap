@@ -47,7 +47,7 @@ ssl_verify_mode    :verify_none
 
 # chef_server_url specifies the URL for the server API. The process actually
 # listens on 0.0.0.0:PORT. valid values are any HTTP URL. To change the port
-# the server listens on, modify /etc/sysconfig/chef-server.
+# the server listens on, modify the server_port in the attributes. 
 
 chef_server_url    "<%= node[:chef][:server_url] %>"
 

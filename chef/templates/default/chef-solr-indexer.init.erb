@@ -27,8 +27,6 @@
 exec="/usr/bin/chef-solr-indexer"
 prog="chef-solr-indexer"
 
-[ -f /etc/sysconfig/$prog ] && . /etc/sysconfig/$prog
-
 # Configuration file for the chef-solr-indexer service
 config=/etc/chef/solr-indexer.rb
 pidfile=<%= @node[:chef][:run_path] %>/solr-indexer.pid
