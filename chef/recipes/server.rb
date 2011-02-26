@@ -68,7 +68,7 @@ server_services.each do |svc, cfg|
     notifies :restart, resources( :service => svc), :delayed
     variables(
       :recipe_name => recipe_name,
-      :cookbook_name => cookbook_name,
+      :cookbook_name => cookbook_name
     )
   end
 
@@ -103,7 +103,7 @@ server_services.each do |svc, cfg|
     mode 0644
     variables(
       :recipe_name => recipe_name,
-      :cookbook_name => cookbook_name,
+      :cookbook_name => cookbook_name
     )
   end
 
