@@ -68,7 +68,7 @@ end
     notifies :create, resources(:ruby_block => "reload_client_config")
     variables(
       :recipe_name => recipe_name,
-      :cookbook_name => cookbook_name,
+      :cookbook_name => cookbook_name
     )
   end
 end
@@ -94,7 +94,7 @@ template "/etc/init.d/chef-client" do
   mode 0755
   variables(
     :recipe_name => recipe_name,
-    :cookbook_name => cookbook_name,
+    :cookbook_name => cookbook_name
   )
 end
 
@@ -105,7 +105,7 @@ template "/etc/logrotate.d/chef-client" do
   mode 0644
   variables(
     :recipe_name => recipe_name,
-    :cookbook_name => cookbook_name,
+    :cookbook_name => cookbook_name
   )
 end
 
