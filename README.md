@@ -77,7 +77,6 @@ Assuming root access on a fresh, basic, CentOS 5.5 install:
 
 6. Next we use rvm to create an isolated gemset for Chef and install it
 
-       rvm 1.9.2 exec rvm gemset create chef
        rvm 1.9.2@chef gem install chef
 
 7. Now we can move on to the actual Chef install. First we need a temporary
