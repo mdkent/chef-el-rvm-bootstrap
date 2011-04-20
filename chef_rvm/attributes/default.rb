@@ -27,8 +27,8 @@ default[:chef_rvm][:run_path]   = "/var/run/chef"
 default[:chef_rvm][:cache_path] = "/var/cache/chef"
 default[:chef_rvm][:backup_path] = "/var/lib/chef/backup"
 
-default[:chef_rvm][:server_version]  = node.chef_packages.chef_rvm[:version]
-default[:chef_rvm][:client_version]  = node.chef_packages.chef_rvm[:version]
+default[:chef_rvm][:server_version]  = node.chef_packages.chef[:version]
+default[:chef_rvm][:client_version]  = node.chef_packages.chef[:version]
 default[:chef_rvm][:client_interval] = "1800"
 default[:chef_rvm][:client_splay]    = "20"
 default[:chef_rvm][:log_dir]         = "/var/log/chef"
