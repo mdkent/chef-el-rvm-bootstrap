@@ -1,0 +1,60 @@
+--- shadow.c.org	1999-08-18 14:48:18.000000000 -0700
++++ shadow.c	2011-02-24 10:23:37.000000000 -0800
+@@ -10,7 +10,7 @@
+ 
+ #include <shadow.h>
+ #include "ruby.h"
+-#include "rubyio.h"
++#include "ruby/io.h"
+ 
+ static VALUE rb_mShadow;
+ static VALUE rb_mPasswd;
+@@ -45,7 +45,7 @@
+   if( TYPE(str) != T_STRING )
+     rb_raise(rb_eException,"argument must be a string.");
+ 
+-  entry = sgetspent(STR2CSTR(str));
++  entry = sgetspent(StringValuePtr(str));
+ 
+   if( entry == NULL )
+     return Qnil;
+@@ -74,7 +74,10 @@
+   if( TYPE(file) != T_FILE )
+     rb_raise(rb_eTypeError,"argument must be a File.");
+ 
+-  entry = fgetspent((RFILE(file)->fptr)->f);
++  entry = fgetspent((RFILE(file)->fptr)->stdio_file);
++  
++  /* Rub 1.8
++  entry = fgetspent((RFILE(file)->fptr)->f); */
+ 
+   if( entry == NULL )
+     return Qnil;
+@@ -127,7 +130,7 @@
+   if( TYPE(name) != T_STRING )
+     rb_raise(rb_eException,"argument must be a string.");
+ 
+-  entry = getspnam(STR2CSTR(name));
++  entry = getspnam(StringValuePtr(name));
+ 
+   if( entry == NULL )
+     return Qnil;
+@@ -157,11 +160,15 @@
+   int result;
+ 
+   for(i=0; i<=8; i++)
++    val[i] = RSTRUCT_PTR(entry)[i];
++  cfile = RFILE(file)->fptr->stdio_file;
++
++/* Ruby 1.8
+     val[i] = RSTRUCT(entry)->ptr[i];
+-  cfile = RFILE(file)->fptr->f;
++  cfile = RFILE(file)->fptr->f; */
+ 
+-  centry.sp_namp = STR2CSTR(val[0]);
+-  centry.sp_pwdp = STR2CSTR(val[1]);
++  centry.sp_namp = StringValuePtr(val[0]);
++  centry.sp_pwdp = StringValuePtr(val[1]);
+   centry.sp_lstchg = FIX2INT(val[2]);
+   centry.sp_min = FIX2INT(val[3]);
+   centry.sp_max = FIX2INT(val[4]);

@@ -112,3 +112,6 @@ end
 log "Add the chef_rvm::delete_validation recipe to the run list to remove the #{Chef::Config[:validation_key]}." do
   only_if { ::File.exists?(Chef::Config[:validation_key]) }
 end
+
+# required for user password management
+include_recipe "ruby-shadow::source"

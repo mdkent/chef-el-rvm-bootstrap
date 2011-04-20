@@ -1,0 +1,5 @@
+--- depend.org	2010-06-01 18:03:28.000000000 -0400
++++ depend	2010-06-01 18:03:32.000000000 -0400
+@@ -1 +1 @@
+-shadow.o : shadow.c $(hdrdir)/ruby.h $(hdrdir)/rubyio.h
++shadow.o : shadow.c $(hdrdir)/ruby.h $(hdrdir)/ruby/io.h
