@@ -1,8 +1,8 @@
 require 'rake/packagetask'
 require 'find'
 
-PACKAGE_NAME = "chef-el-bootstrap"
-PACKAGE_VERSION="0.9.12-1"
+PACKAGE_NAME = "chef-el-rvm-bootstrap"
+PACKAGE_VERSION="0.9.16-1"
 PACKAGE_FULL="#{PACKAGE_NAME}-#{PACKAGE_VERSION}"
 PACKAGE_DIR = "tmp"
 INCLUDE_FILES = "**/*"
