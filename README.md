@@ -125,7 +125,7 @@ added to the server's run list to enable this.
 Also, before testing your server, be sure to disable the default firewall if
 it's running with 
 
-        service iptables stop
+    service iptables stop
 
 Congratulations, the bootstrap is done - you can now move on to configuring your
 copy of 
