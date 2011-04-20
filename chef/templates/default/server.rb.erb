@@ -127,7 +127,7 @@ cache_options({ :path => "<%= node[:chef][:cache_path] %>/checksums", :skip_expi
 
 # checksum_path sets the location for file checksums on sandbox uploads.
 
-checksum_path "<%= node[:chef][:cache_path] %>/checksums"
+checksum_path "<%= node[:chef][:cache_path] %>/sandbox_checksums"
 
 # Mixlib::Log::Formatter.show_time specifies whether the chef-client log should
 # contain timestamps.
