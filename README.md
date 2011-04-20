@@ -44,19 +44,19 @@ Assuming root access on a fresh, basic, CentOS 5.6 install:
 
 1. Install the EPEL repositories for git
 
-       rpm -Uvh http://download.fedora.redhat.com/pub/epel/5/i386/epel-release-5-4.noarch.rpm
+        rpm -Uvh http://download.fedora.redhat.com/pub/epel/5/i386/epel-release-5-4.noarch.rpm
 
 2. Install the rvm package
 
-       wget --no-check-certificate https://github.com/mdkent/rvm-rpm/raw/master/RPMS/noarch/rvm-ruby-1.6.3-1.el5.noarch.rpm
-       yum localinstall --nogpgcheck rvm-ruby-1.6.3-1.el5.noarch.rpm
+        wget --no-check-certificate https://github.com/mdkent/rvm-rpm/raw/master/RPMS/noarch/rvm-ruby-1.6.3-1.el5.noarch.rpm
+        yum localinstall --nogpgcheck rvm-ruby-1.6.3-1.el5.noarch.rpm
 
    This should install all the dependencies to build ruby
 
 3. Chose a ruby version and install, 1.9.2-p180 is the default for the bootstrap.
 
-       rvm list known
-       rvm install 1.9.2-p180
+        rvm list known
+        rvm install 1.9.2-p180
 
    > By default rvm will connect to the internet to download the ruby packages
    > to compile. If this is a problem you should install your own copy of rvm
@@ -65,16 +65,16 @@ Assuming root access on a fresh, basic, CentOS 5.6 install:
 
 4. Next we use rvm to create an isolated gemset for Chef and install it
 
-       rvm 1.9.2-p180@chef gem install chef
+        rvm 1.9.2-p180@chef gem install chef
 
 5. Now we can move on to the actual Chef install. First we need a temporary
    config for chef-solo to extract and execute our bootstrap cookbooks:
 
-       cat<<EOF>solo.rb
-       file_cache_path "/tmp/chef-solo"
-       cookbook_path "/tmp/chef-solo/cookbooks"
-       cache_options({ :path => "/tmp/chef-solo/checksums", :skip_expires => true })
-       EOF
+        cat<<EOF>solo.rb
+        file_cache_path "/tmp/chef-solo"
+        cookbook_path "/tmp/chef-solo/cookbooks"
+        cache_options({ :path => "/tmp/chef-solo/checksums", :skip_expires => true })
+        EOF
 
 6. Next we either chose a type of chef server or a client install. First time
    users should setup a 'Standard Server'. You can either download and modify
@@ -95,7 +95,7 @@ Assuming root access on a fresh, basic, CentOS 5.6 install:
    [the packages page here](https://github.com/mdkent/chef-el-rvm-bootstrap/archives/master),
    build them from this repository with
 
-       rake build_bootstrap
+        rake build_bootstrap
 
    or, by picking the right url to make chef-solo happy (open-uri doesn't like
    the github redirect), reference them directly via
