@@ -1,7 +1,7 @@
 {
-  "chef": {
+  "chef_rvm": {
     "server_url": "http://localhost:4000",
     "webui_enabled": true
   },
-  "run_list": [ "recipe[chef::server]" ]
+  "run_list": [ "recipe[chef_rvm::server]" ]
 }

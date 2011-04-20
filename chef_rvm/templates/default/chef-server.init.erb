@@ -29,13 +29,13 @@ prog="chef-server"
 
 # Configuration file for the chef-server service
 config=/etc/chef/server.rb
-pidfile=<%= @node[:chef][:run_path] %>/server.main.pid
+pidfile=<%= @node[:chef_rvm][:run_path] %>/server.main.pid
 lockfile=/var/lock/subsys/$prog
-logfile=<%= @node[:chef][:log_dir] %>/server.log
+logfile=<%= @node[:chef_rvm][:log_dir] %>/server.log
 port=4000
 env=production
 adapter=thin
-childpidfiles=<%= @node[:chef][:run_path] %>/server.%s.pid
+childpidfiles=<%= @node[:chef_rvm][:run_path] %>/server.%s.pid
 user=chef
 group=chef
 # Any additional chef-server options.

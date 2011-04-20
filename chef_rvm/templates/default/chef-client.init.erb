@@ -29,16 +29,16 @@ prog="chef-client"
 
 # Configuration file for the chef-client service
 config=/etc/chef/client.rb
-pidfile=<%= @node[:chef][:run_path] %>/client.pid
+pidfile=<%= @node[:chef_rvm][:run_path] %>/client.pid
 lockfile=/var/lock/subsys/$prog
-logfile=<%= @node[:chef][:log_dir] %>/client.log
+logfile=<%= @node[:chef_rvm][:log_dir] %>/client.log
 # Sleep interval between runs.
 # This value is in seconds.
-interval=<%= @node[:chef][:client_interval] %>
+interval=<%= @node[:chef_rvm][:client_interval] %>
 # Maximum amount of random delay before starting a run. Prevents every client
 # from contacting the server at the exact same time.
 # This value is in seconds.
-splay=<%= @node[:chef][:client_splay] %>
+splay=<%= @node[:chef_rvm][:client_splay] %>
 # Any additional chef-client options.
 options=
 

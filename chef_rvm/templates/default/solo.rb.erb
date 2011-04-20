@@ -37,7 +37,7 @@ log_location       STDOUT
 # different from 'normal' client mode as solo is actually downloading (or
 # using) the specified cookbooks in this location.
 
-file_cache_path    "<%= node[:chef][:cache_path] %>"
+file_cache_path    "<%= node[:chef_rvm][:cache_path] %>"
 
 # cookbook_path specifies where solo should look for cookbooks it will use.
 # valid value is a string, or array of strings of filesystem directory locations.
@@ -45,7 +45,7 @@ file_cache_path    "<%= node[:chef][:cache_path] %>"
 # this as a search location, in Array order. It should be a subdirectory of
 # file_cache_path, above.
 
-cookbook_path      [ "<%= node[:chef][:serve_path] %>/cookbooks", "<%= node[:chef][:serve_path] %>/site-cookbooks" ]
+cookbook_path      [ "<%= node[:chef_rvm][:serve_path] %>/cookbooks", "<%= node[:chef_rvm][:serve_path] %>/site-cookbooks" ]
 
 # role_path designates where the server should load role JSON and Ruby DSL
 # files from.
@@ -54,7 +54,7 @@ cookbook_path      [ "<%= node[:chef][:serve_path] %>/cookbooks", "<%= node[:che
 # Please see the Chef Wiki page for information on how to utilize the feature.
 # http://wiki.opscode.com/display/chef/Roles
 
-role_path          [ "<%= node[:chef][:serve_path] %>/roles" ]
+role_path          [ "<%= node[:chef_rvm][:serve_path] %>/roles" ]
 
 # recipe_url specifies a remote URL to retrieve a tarball of cookbooks.
 # Corresponds to chef-solo -r

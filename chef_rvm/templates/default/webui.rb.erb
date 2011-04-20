@@ -52,13 +52,13 @@ ssl_verify_mode    :verify_none
 # valid values are any HTTP URL. If the server API port is changed, this
 # value needs to be updated as well.
 
-chef_server_url    "<%= node[:chef][:server_url] %>"
+chef_server_url    "<%= node[:chef_rvm][:server_url] %>"
 
 # file_cache_path specifies where the client should cache cookbooks, server
 # cookie ID, and openid registration data.
 # valid value is any filesystem directory location.
 
-file_cache_path    "<%= node[:chef][:cache_path] %>"
+file_cache_path    "<%= node[:chef_rvm][:cache_path] %>"
 
 # openid_store_path specifies a location where to keep openid nonces for clients.
 # valid values are any filesystem directory location.
@@ -66,7 +66,7 @@ file_cache_path    "<%= node[:chef][:cache_path] %>"
 # NOTE: OpenID is optionally used in the WebUI to associate OpenIDs with webui
 # users.
 
-openid_store_path  "<%= node[:chef][:path] %>/openid/store"
+openid_store_path  "<%= node[:chef_rvm][:path] %>/openid/store"
 
 # openid_store_path specifies a location where to keep openid nonces for clients.
 # valid values are any filesystem directory location.
@@ -74,7 +74,7 @@ openid_store_path  "<%= node[:chef][:path] %>/openid/store"
 # NOTE: OpenID is optionally used in the WebUI to associate OpenIDs with webui
 # users.
 
-openid_cstore_path "<%= node[:chef][:path] %>/openid/cstore"
+openid_cstore_path "<%= node[:chef_rvm][:path] %>/openid/cstore"
 
 # Mixlib::Log::Formatter.show_time specifies whether the chef-client log should
 # contain timestamps.

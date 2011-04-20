@@ -2,7 +2,7 @@
 # Modified By:: Matthew Kent
 # Original Author:: Joshua Timberman <joshua@opscode.com>
 # Original Author:: Joshua Sierles <joshua@37signals.com>
-# Cookbook Name:: chef
+# Cookbook Name:: chef_rvm
 # Recipe:: client
 #
 # Copyright 2008-2010, Opscode, Inc
@@ -24,23 +24,23 @@ recipe_name = self.recipe_name
 cookbook_name = self.cookbook_name
 
 gem_package "chef" do
-  version node[:chef][:client_version]
+  version node[:chef_rvm][:client_version]
 end
 
 user "chef" do
   system true
   shell "/sbin/nologin"
-  home node[:chef][:path]
+  home node[:chef_rvm][:path]
 end
 
 chef_dirs = [
   "/etc/chef",
-  node[:chef][:path],
-  node[:chef][:serve_path],
-  node[:chef][:run_path],
-  node[:chef][:cache_path],
-  node[:chef][:backup_path],
-  node[:chef][:log_dir]
+  node[:chef_rvm][:path],
+  node[:chef_rvm][:serve_path],
+  node[:chef_rvm][:run_path],
+  node[:chef_rvm][:cache_path],
+  node[:chef_rvm][:backup_path],
+  node[:chef_rvm][:log_dir]
 ].uniq
 
 chef_dirs.each do |dir|
@@ -109,6 +109,6 @@ template "/etc/logrotate.d/chef-client" do
   )
 end
 
-log "Add the chef::delete_validation recipe to the run list to remove the #{Chef::Config[:validation_key]}." do
+log "Add the chef_rvm::delete_validation recipe to the run list to remove the #{Chef::Config[:validation_key]}." do
   only_if { ::File.exists?(Chef::Config[:validation_key]) }
 end

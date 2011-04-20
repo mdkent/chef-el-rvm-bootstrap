@@ -49,7 +49,7 @@ ssl_verify_mode    :verify_none
 # listens on 0.0.0.0:PORT. valid values are any HTTP URL. To change the port
 # the server listens on, modify the server_port in the attributes. 
 
-chef_server_url    "<%= node[:chef][:server_url] %>"
+chef_server_url    "<%= node[:chef_rvm][:server_url] %>"
 
 # cookbook_path is a Ruby array of filesystem locations to search for cookbooks
 # that are available for clients. This is also where cookbooks uploaded via
@@ -64,29 +64,29 @@ chef_server_url    "<%= node[:chef][:server_url] %>"
 # See the Chef Wiki for more information about setting up a local repository for
 # working on cookbooks: http://wiki.opscode.com/display/chef/Chef+Repository
 
-cookbook_path      [ "<%= node[:chef][:serve_path] %>/cookbooks", "<%= node[:chef][:serve_path] %>/site-cookbooks" ]
+cookbook_path      [ "<%= node[:chef_rvm][:serve_path] %>/cookbooks", "<%= node[:chef_rvm][:serve_path] %>/site-cookbooks" ]
 
 # cookbook_tarball_path is the location where the server will store uploaded
 # cookbook tarballs. These tarballs can be downloaded with knife, for
 # redistribution.
 
-cookbook_tarball_path "<%= node[:chef][:serve_path] %>/cookbook-tarballs"
+cookbook_tarball_path "<%= node[:chef_rvm][:serve_path] %>/cookbook-tarballs"
 
 # sandbox_path is the location where the chef server temporarily stores files
 # uploaded for cookbooks.
 
-sandbox_path "<%= node[:chef][:cache_path] %>/sandboxes"
+sandbox_path "<%= node[:chef_rvm][:cache_path] %>/sandboxes"
 
 # file_cache_path specifies where chef should cache cookbooks, server
 # cookie ID, and openid registration data.
 # valid value is any filesystem directory location.
 
-file_cache_path    "<%= node[:chef][:cache_path] %>"
+file_cache_path    "<%= node[:chef_rvm][:cache_path] %>"
 
 # node_path specifies a location for where to find node-specific recipes.
 # valid values are any filesystem direcory location.
 
-node_path          "<%= node[:chef][:serve_path] %>/nodes"
+node_path          "<%= node[:chef_rvm][:serve_path] %>/nodes"
 
 # openid_store_path specifies a location where to keep openid nonces for clients.
 # valid values are any filesystem directory location.
@@ -95,7 +95,7 @@ node_path          "<%= node[:chef][:serve_path] %>/nodes"
 # historical purposes because the default in Chef is not FHS compliant, and
 # may be removed in a future version.
 
-openid_store_path  "<%= node[:chef][:path] %>/openid/store"
+openid_store_path  "<%= node[:chef_rvm][:path] %>/openid/store"
 
 # openid_store_path specifies a location where to keep openid nonces for clients.
 # valid values are any filesystem directory location.
@@ -104,7 +104,7 @@ openid_store_path  "<%= node[:chef][:path] %>/openid/store"
 # historical purposes because the default in Chef is not FHS compliant, and
 # may be removed in a future version.
 
-openid_cstore_path "<%= node[:chef][:path] %>/openid/cstore"
+openid_cstore_path "<%= node[:chef_rvm][:path] %>/openid/cstore"
 
 # role_path designates where the server should load role JSON and Ruby DSL
 # files from.
@@ -118,16 +118,16 @@ openid_cstore_path "<%= node[:chef][:path] %>/openid/cstore"
 # This option is kept for historical purposes because the default in Chef is
 # not FHS compliant, and may be removed in a future version.
 
-#role_path          "<%= node[:chef][:serve_path] %>/roles"
+#role_path          "<%= node[:chef_rvm][:serve_path] %>/roles"
 
 # cache_options sets options used by the moneta library for local cache
 # for checksums of compared objects.
 
-cache_options({ :path => "<%= node[:chef][:cache_path] %>/checksums", :skip_expires => true})
+cache_options({ :path => "<%= node[:chef_rvm][:cache_path] %>/checksums", :skip_expires => true})
 
 # checksum_path sets the location for file checksums on sandbox uploads.
 
-checksum_path "<%= node[:chef][:cache_path] %>/sandbox_checksums"
+checksum_path "<%= node[:chef_rvm][:cache_path] %>/sandbox_checksums"
 
 # Mixlib::Log::Formatter.show_time specifies whether the chef-client log should
 # contain timestamps.

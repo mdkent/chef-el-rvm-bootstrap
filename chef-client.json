@@ -1,6 +1,6 @@
 {
-  "chef": {
+  "chef_rvm": {
     "server_url": "http://localhost:4000"
   },
-  "run_list": [ "recipe[chef::client]" ]
+  "run_list": [ "recipe[chef_rvm::client]" ]
 }

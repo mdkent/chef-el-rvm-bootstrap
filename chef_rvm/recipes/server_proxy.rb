@@ -1,7 +1,7 @@
 #
 # Modified By:: Matthew Kent
 # Original Author:: Joshua Timberman <joshua@opscode.com>
-# Cookbook Name:: chef
+# Cookbook Name:: chef_rvm
 # Recipe:: server_proxy
 #
 # Copyright 2009, Opscode, Inc
@@ -19,11 +19,11 @@
 # limitations under the License.
 
 node[:apache][:listen_ports] << "443" unless node[:apache][:listen_ports].include?("443")
-if node[:chef][:webui_enabled]
+if node[:chef_rvm][:webui_enabled]
   node[:apache][:listen_ports] << "444" unless node[:apache][:listen_ports].include?("444")
 end
 
-include_recipe "chef::server"
+include_recipe "chef_rvm::server"
 include_recipe "apache2"
 include_recipe "apache2::mod_ssl"
 include_recipe "apache2::mod_proxy"
@@ -44,16 +44,16 @@ bash "Create SSL Certificates" do
   cwd "/etc/chef/certificates"
   code <<-EOH
   umask 077
-  openssl genrsa 2048 > #{node[:chef][:server_fqdn]}.key
-  openssl req -subj "#{node[:chef][:server_ssl_req]}" -new -x509 -nodes -sha1 -days 3650 -key #{node[:chef][:server_fqdn]}.key > #{node[:chef][:server_fqdn]}.crt
-  cat #{node[:chef][:server_fqdn]}.key #{node[:chef][:server_fqdn]}.crt > #{node[:chef][:server_fqdn]}.pem
+  openssl genrsa 2048 > #{node[:chef_rvm][:server_fqdn]}.key
+  openssl req -subj "#{node[:chef_rvm][:server_ssl_req]}" -new -x509 -nodes -sha1 -days 3650 -key #{node[:chef_rvm][:server_fqdn]}.key > #{node[:chef_rvm][:server_fqdn]}.crt
+  cat #{node[:chef_rvm][:server_fqdn]}.key #{node[:chef_rvm][:server_fqdn]}.crt > #{node[:chef_rvm][:server_fqdn]}.pem
   EOH
-  not_if { ::File.exists?("/etc/chef/certificates/#{node[:chef][:server_fqdn]}.pem") }
+  not_if { ::File.exists?("/etc/chef/certificates/#{node[:chef_rvm][:server_fqdn]}.pem") }
 end
 
 web_app "chef_server" do
   template "chef_server.conf.erb"
-  server_name node[:chef][:server_fqdn]
-  server_aliases [ node[:hostname], node[:fqdn], node[:chef][:server_fqdn] ]
+  server_name node[:chef_rvm][:server_fqdn]
+  server_aliases [ node[:hostname], node[:fqdn], node[:chef_rvm][:server_fqdn] ]
   log_dir node[:apache][:log_dir]
 end

@@ -29,9 +29,9 @@ prog="chef-solr"
 
 # Configuration file for the chef-solr service
 config=/etc/chef/solr.rb
-pidfile=<%= @node[:chef][:run_path] %>/solr.pid
+pidfile=<%= @node[:chef_rvm][:run_path] %>/solr.pid
 lockfile=/var/lock/subsys/$prog
-logfile=<%= @node[:chef][:log_dir] %>/solr.log
+logfile=<%= @node[:chef_rvm][:log_dir] %>/solr.log
 # Options for Java. Need to start with -j followed by options.
 options=
 

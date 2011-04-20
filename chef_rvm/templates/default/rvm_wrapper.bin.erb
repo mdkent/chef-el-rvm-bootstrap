@@ -6,4 +6,4 @@
 # Cookbook: <%= @cookbook_name %>
 # Recipe: <%= @recipe_name %>
 #
-exec <%= @node[:chef][:rvm_binary] %> <%= @node[:chef][:rvm_ruby] %> exec <%= @binary %> $@
+exec <%= @node[:chef_rvm][:rvm_binary] %> <%= @node[:chef_rvm][:rvm_ruby] %> exec <%= @binary %> $@

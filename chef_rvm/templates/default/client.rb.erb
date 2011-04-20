@@ -44,19 +44,19 @@ ssl_verify_mode    :verify_none
 # valid values are any HTTP URL.
 # Corresponds to chef-client -S
 
-chef_server_url    "<%= node[:chef][:server_url] %>"
+chef_server_url    "<%= node[:chef_rvm][:server_url] %>"
 
 # file_cache_path specifies where the client should cache cookbooks, server
 # cookie ID, and openid registration data.
 # valid value is any filesystem directory location.
 
-file_cache_path    "<%= node[:chef][:cache_path] %>"
+file_cache_path    "<%= node[:chef_rvm][:cache_path] %>"
 
 # file_backup_path specifies where chef will store backups of replaced files
 # from template, cookbook_file and remote_file resources.
 
-<% if node[:chef][:backup_path] -%>
-file_backup_path   "<%= node[:chef][:backup_path] %>"
+<% if node[:chef_rvm][:backup_path] -%>
+file_backup_path   "<%= node[:chef_rvm][:backup_path] %>"
 <% else -%>
 file_backup_path   nil
 <% end -%>
@@ -65,12 +65,12 @@ file_backup_path   nil
 # file.
 # valid value is any filesystem file location.
 
-pid_file           "<%= node[:chef][:run_path] %>/client.pid"
+pid_file           "<%= node[:chef_rvm][:run_path] %>/client.pid"
 
 # cache_options sets options used by the moneta library for local cache
 # for checksums of compared objects.
 
-cache_options({ :path => "<%= node[:chef][:cache_path] %>/checksums", :skip_expires => true})
+cache_options({ :path => "<%= node[:chef_rvm][:cache_path] %>/checksums", :skip_expires => true})
 
 # signing_ca_user is used when generating the certificates used by chef to
 # set the owner of the keyfile. This is set to chef so services that run

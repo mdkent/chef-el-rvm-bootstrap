@@ -29,12 +29,12 @@ log_location       STDOUT
 # search_index_path specifies where the indexer should store the indexes.
 # valid value is any filesystem directory location.
 
-search_index_path    "<%= node[:chef][:path] %>/search_index"
+search_index_path    "<%= node[:chef_rvm][:path] %>/search_index"
 
-solr_jetty_path "<%= node[:chef][:path] %>/solr/solr-jetty"
-solr_home_path  "<%= node[:chef][:path] %>/solr"
-solr_data_path  "<%= node[:chef][:cache_path] %>/solr/data"
-solr_heap_size  "<%= node[:chef][:solr_heap_size] %>"
+solr_jetty_path "<%= node[:chef_rvm][:path] %>/solr/solr-jetty"
+solr_home_path  "<%= node[:chef_rvm][:path] %>/solr"
+solr_data_path  "<%= node[:chef_rvm][:cache_path] %>/solr/data"
+solr_heap_size  "<%= node[:chef_rvm][:solr_heap_size] %>"
 
 # specifies the URL of the SOLR instance for the indexer to connect to.
 
@@ -56,7 +56,7 @@ Mixlib::Log::Formatter.show_time = true
 # file.
 # valid value is any filesystem file location.
 
-pid_file           "<%= node[:chef][:run_path] %>/solr-indexer.pid"
+pid_file           "<%= node[:chef_rvm][:run_path] %>/solr-indexer.pid"
 
 user "chef"
 group "chef"

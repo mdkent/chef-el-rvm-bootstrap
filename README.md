@@ -119,7 +119,7 @@ Assuming chef-solo completes without incident you should now have a fully
 configured and functioning chef server or client.
 
 The server bootstrap does *not* enable the chef-client service by default as
-some may prefer to run it on demand. The chef::client_service recipe must be
+some may prefer to run it on demand. The chef_rvm::client_service recipe must be
 added to the server's run list to enable this.
 
 Also, before testing your server, be sure to disable the default firewall if

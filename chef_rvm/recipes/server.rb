@@ -2,7 +2,7 @@
 # Modified By:: Matthew Kent
 # Original Author:: Joshua Timberman <joshua@opscode.com>
 # Original Author:: Joshua Sierles <joshua@37signals.com>
-# Cookbook Name:: chef
+# Cookbook Name:: chef_rvm
 # Recipe:: server
 #
 # Copyright 2008-2009, Opscode, Inc
@@ -23,7 +23,7 @@
 recipe_name = self.recipe_name
 cookbook_name = self.cookbook_name
 
-include_recipe "chef::client"
+include_recipe "chef_rvm::client"
 
 include_recipe "java"
 include_recipe "couchdb"
@@ -38,14 +38,14 @@ server_services = {
   "chef-solr-indexer" => "solr-indexer"
 }
 
-if node.chef.attribute?("webui_enabled")
+if node.chef_rvm.attribute?("webui_enabled")
   server_gems << "chef-server-webui"
   server_services["chef-server-webui"] = "webui"
 end
 
 server_gems.each do |gem|
   gem_package gem do
-    version node.chef.server_version
+    version node.chef_rvm.server_version
   end
 end
 

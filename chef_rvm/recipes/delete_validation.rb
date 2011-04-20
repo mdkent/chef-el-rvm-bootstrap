@@ -1,10 +1,10 @@
 #
 # Modified By:: Matthew Kent
 # Original Author:: Joshua Timberman <joshua@opscode.com>
-# Cookbook Name:: chef
-# Recipe:: bootstrap_client
+# Cookbook Name:: chef_rvm
+# Recipe:: delete_validation
 #
-# Copyright 2009-2010, Opscode, Inc.
+# Copyright 2010, Opscode, Inc
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,8 +18,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-service "chef-client" do
-  action [ :enable, :start ]
+file Chef::Config[:validation_key] do
+  action :delete
+  backup false
+  only_if { ::File.exists?(Chef::Config[:client_key]) }
 end
-
-include_recipe "chef::client"
