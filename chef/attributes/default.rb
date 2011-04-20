@@ -42,4 +42,4 @@ default[:chef][:server_fqdn]     = node.has_key?(:domain) ? "chef.#{domain}" : "
 default[:chef][:server_url]      = "#{node.chef.url_type}://#{node.chef.server_fqdn}:#{node.chef.server_port}"
 
 default[:chef][:rvm_ruby] = "1.9.2-p180@chef"
-default[:chef][:rvm_binary] = "/usr/local/bin/rvm"
+default[:chef][:rvm_binary] = "/usr/bin/rvm"
