@@ -55,7 +55,6 @@ Assuming root access on a fresh, basic, CentOS 5.6 install:
 
 3. Chose a ruby version and install, 1.9.2-p180 is the default for the bootstrap.
 
-        rvm list known
         rvm install 1.9.2-p180
 
    > By default rvm will connect to the internet to download the ruby packages

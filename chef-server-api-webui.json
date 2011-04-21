@@ -1,7 +1,8 @@
 {
   "chef_rvm": {
     "server_url": "http://localhost:4000",
-    "webui_enabled": true
+    "webui_enabled": true,
+    "rvm_ruby": "1.9.2-p180@chef"
   },
   "run_list": [ "recipe[chef_rvm::server]" ]
 }
