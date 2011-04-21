@@ -18,6 +18,25 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# A default CentOS install with the 'server' package option selected installs
+# httpd and some other dependant packages - these get in the way. Bail out if a
+# file from one of these installs is detected.
+if platform?("centos", "redhat")
+  ruby_block "default_install_warning" do
+    block do
+      packages=`rpm -qa --filesbypkg | grep /etc/httpd/ | cut -d" " -f1 | sort | uniq | xargs`.chomp
+      Chef::Log.fatal("Found file at #{node[:apache][:dir]}/conf.d/ssl.conf - this normally " +
+                      "shouldn't exist as we use a system in /etc/httpd/mods-{available/enabled}. " +
+                      "Was httpd installed already? Please remove everything involved with httpd with " +
+                      "'yum remove #{packages}' and run chef-client again so Chef can control the " +
+                      "install of httpd and it's dependant modules. Aborting run.")
+      exit 0
+    end
+    only_if { File.exists?("#{node[:apache][:dir]}/conf.d/ssl.conf") }
+    action :create
+  end
+end
+
 package "apache2" do
   package_name "httpd"
   action :install
