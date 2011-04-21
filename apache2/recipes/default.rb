@@ -53,7 +53,7 @@ service "apache2" do
   action :enable
 end
 
-if platform?("centos", "redhat", "fedora", "suse", "arch")
+if platform?("centos", "redhat")
   directory node[:apache][:log_dir] do
     mode 0755
     action :create
@@ -186,7 +186,7 @@ include_recipe "apache2::mod_env"
 include_recipe "apache2::mod_mime"
 include_recipe "apache2::mod_negotiation"
 include_recipe "apache2::mod_setenvif"
-include_recipe "apache2::mod_log_config" if platform?("centos", "redhat", "suse", "arch")
+include_recipe "apache2::mod_log_config" if platform?("centos", "redhat")
 
 # uncomment to get working example site on centos/redhat/fedora
 #apache_site "default"

@@ -9,6 +9,6 @@ recipe "couchdb::source", "Installs and configures CouchDB from source"
 
 depends "erlang"
 
-%w{ centos fedora }.each do |os|
+%w{ centos redhat }.each do |os|
   supports os
 end

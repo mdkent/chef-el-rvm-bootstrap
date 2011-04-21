@@ -18,7 +18,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-if platform?("centos", "redhat", "fedora")
+if platform?("centos", "redhat")
   package "mod_ssl" do
     action :install
     notifies :run, resources(:execute => "generate-module-list"), :immediately
