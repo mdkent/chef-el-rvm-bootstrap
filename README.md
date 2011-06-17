@@ -51,20 +51,20 @@ Assuming root access on a fresh, basic, CentOS 5.6 install:
         wget --no-check-certificate https://github.com/mdkent/rvm-rpm/raw/master/RPMS/noarch/rvm-ruby-1.6.3-1.el5.noarch.rpm
         yum localinstall --nogpgcheck rvm-ruby-1.6.3-1.el5.noarch.rpm
 
-   This should install all the dependencies to build ruby
+    This should install all the dependencies to build ruby
 
 3. Chose a ruby version and install, 1.9.2-p180 is the default for the bootstrap.
 
         rvm install 1.9.2-p180
 
-   > By default rvm will connect to the internet to download the ruby packages
-   > to compile. If this is a problem you should install your own copy of rvm
-   > from your own repository (see above) where you can modify the config/db
-   > file to point at an internal server.
+    > By default rvm will connect to the internet to download the ruby packages
+    > to compile. If this is a problem you should install your own copy of rvm
+    > from your own repository (see above) where you can modify the config/db
+    > file to point at an internal server.
 
 4. Next we use rvm to create an isolated gemset for Chef and install it
 
-        rvm 1.9.2-p180@chef gem install chef
+        rvm 1.9.2-p180@chef gem install chef -v 0.9.16
 
 5. Now we can move on to the actual Chef install. First we need a temporary
    config for chef-solo to extract and execute our bootstrap cookbooks:
@@ -85,9 +85,9 @@ Assuming root access on a fresh, basic, CentOS 5.6 install:
    * [Minimal Server](https://github.com/mdkent/chef-el-rvm-bootstrap/raw/master/chef-server-api.json)
      - only API
 
-   Alternately a client install can be
-   [obtained here](https://github.com/mdkent/chef-el-rvm-bootstrap/raw/master/chef-client.json)
-   though this will likely need to be modified for the correct server_url.
+    Alternately a client install can be
+    [obtained here](https://github.com/mdkent/chef-el-rvm-bootstrap/raw/master/chef-client.json)
+    though this will likely need to be modified for the correct server_url.
 
 7. Finally we get to the bootstrap cookbooks. You can either
    download them from
