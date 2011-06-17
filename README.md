@@ -96,10 +96,10 @@ Assuming root access on a fresh, basic, CentOS 5.6 install:
 
         rake build_bootstrap
 
-   or, by picking the right url to make chef-solo happy (open-uri doesn't like
-   the github redirect), reference them directly via
+    or, by picking the right url to make chef-solo happy (open-uri doesn't like
+    the github redirect), reference them directly via
 
-   http://cloud.github.com/downloads/mdkent/chef-el-rvm-bootstrap/chef-el-rvm-bootstrap-0.9.16-1.tar.gz
+    http://cloud.github.com/downloads/mdkent/chef-el-rvm-bootstrap/chef-el-rvm-bootstrap-0.9.16-1.tar.gz
 
 8. We are all set to run the Chef bootstrap. chef-solo can be invoked with
     local files:
