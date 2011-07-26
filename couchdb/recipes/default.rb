@@ -1,6 +1,5 @@
 #
 # Modified By:: Matthew Kent
-# Original Author:: Opscode, Inc.
 # Original Author:: Joshua Timberman <joshua@opscode.com>
 # Cookbook Name:: couchdb
 # Recipe:: default

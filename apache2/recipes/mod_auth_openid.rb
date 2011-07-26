@@ -1,8 +1,6 @@
 #
-# Modified By:: Matthew Kent
-# Original Author:: Opscode, Inc.
 # Cookbook Name:: apache2
-# Recipe:: php5 
+# Recipe:: mod_auth_openid
 #
 # Copyright 2008-2009, Opscode, Inc.
 #
@@ -19,9 +17,3 @@
 # limitations under the License.
 #
 
-package "php" do
-  action :install
-  notifies :run, resources(:execute => "generate-module-list"), :immediately
-end
-
-apache_module "php5"

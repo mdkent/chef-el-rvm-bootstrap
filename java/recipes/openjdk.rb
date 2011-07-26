@@ -1,10 +1,10 @@
 #
 # Modified By:: Matthew Kent
-# Original Author:: Opscode, Inc.
-# Cookbook Name:: apache2
-# Recipe:: php5 
+# Original Author:: Seth Chisamore (<schisamo@opscode.com>)
+# Cookbook Name:: java
+# Recipe:: openjdk
 #
-# Copyright 2008-2009, Opscode, Inc.
+# Copyright 2010-2011, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,11 +17,11 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
 
-package "php" do
-  action :install
-  notifies :run, resources(:execute => "generate-module-list"), :immediately
+pkgs = ["java-1.6.0-openjdk","java-1.6.0-openjdk-devel"]
+
+pkgs.each do |pkg|
+  package pkg do
+    action :install
+  end
 end
-
-apache_module "php5"

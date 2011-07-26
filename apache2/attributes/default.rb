@@ -17,6 +17,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
 
 # Where the various parts of apache are
 set[:apache][:dir]     = "/etc/httpd"
@@ -43,6 +44,9 @@ default[:apache][:keepalivetimeout] = 5
 default[:apache][:servertokens] = "Prod"
 default[:apache][:serversignature] = "On"
 default[:apache][:traceenable] = "On"
+
+# mod_auth_openids
+default[:apache][:allowed_openids] = Array.new
 
 # Prefork Attributes
 default[:apache][:prefork][:startservers] = 16

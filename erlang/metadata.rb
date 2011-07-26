@@ -1,8 +1,8 @@
-maintainer       "Matthew Kent"
-maintainer_email "mkent@magoazul.com"
-license          "Apache 2.0"
-description      "Installs erlang, optionally install GUI tools."
-version          "0.1"
+maintainer        "Matthew Kent"
+maintainer_email  "mkent@magoazul.com"
+license           "Apache 2.0"
+description       "Installs erlang, optionally install GUI tools."
+version           "0.1"
 
 recipe "erlang", "Installs erlang"
 

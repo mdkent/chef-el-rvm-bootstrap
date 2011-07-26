@@ -17,6 +17,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
 
 if platform?("centos", "redhat")
   package "mod_ssl" do
@@ -36,6 +37,7 @@ template "#{node[:apache][:dir]}/ports.conf" do
   source "ports.conf.erb"
   variables :apache_listen_ports => ports
   notifies :restart, resources(:service => "apache2")
+  mode 0644
 end
 
 apache_module "ssl" do

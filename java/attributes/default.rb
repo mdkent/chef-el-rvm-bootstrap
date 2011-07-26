@@ -1,6 +1,6 @@
 #
 # Modified By:: Matthew Kent
-# Original Author:: Opscode, Inc.
+# Original Author:: Seth Chisamore (<schisamo@opscode.com>)
 # Cookbook Name:: java
 # Attributes:: default
 #
@@ -18,4 +18,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-set["java"]["java_home"] = "/usr/lib/jvm/java"
+default['java']['install_flavor'] = "openjdk"
+
+default['java']['version'] = "6u25"
+default['java']['arch'] = kernel['machine'] =~ /x86_64/ ? "amd64" : "i586"
+set['java']['java_home'] = "/usr/lib/jvm/java"
