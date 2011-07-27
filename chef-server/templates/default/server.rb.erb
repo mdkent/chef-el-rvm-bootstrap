@@ -32,3 +32,8 @@ signing_ca_cert    "/etc/chef/certificates/cert.pem"
 signing_ca_key     "/etc/chef/certificates/key.pem"
 signing_ca_user    "chef"
 signing_ca_group   "chef"
+
+# for checksums of compared objects.
+cache_options({ :path => "<%= node['chef_server']['cache_path'] %>/checksums", :skip_expires => true})
+
+umask 0022

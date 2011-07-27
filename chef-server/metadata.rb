@@ -11,6 +11,6 @@ recipe            "chef-server::apache-proxy", "Configures Apache2 proxy for API
   supports os
 end
 
-%w{ couchdb apache2 openssl zlib xml java gecode }.each do |cb|
+%w{ chef-client couchdb apache2 openssl zlib xml java gecode }.each do |cb|
   depends cb
 end

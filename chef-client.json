@@ -3,5 +3,7 @@
     "server_url": "http://localhost:4000",
     "rvm_ruby": "1.9.2-p290@chef"
   },
-  "run_list": [ "recipe[chef-client::config]", "recipe[chef-client::service]" ]
+  "run_list": [
+    "recipe[chef-client::config]"
+  ]
 }

@@ -1,6 +1,7 @@
 #
-# Author:: Joshua Timberman <joshua@opscode.com>
-# Author:: Joshua Sierles <joshua@37signals.com>
+# Modified By:: Matthew Kent
+# Original Author:: Joshua Timberman <joshua@opscode.com>
+# Original Author:: Joshua Sierles <joshua@37signals.com>
 #
 # Cookbook Name:: chef
 # Recipe:: bootstrap_server
@@ -23,12 +24,7 @@
 
 root_group = "root" 
 
-user "chef" do
-  system true
-  shell "/bin/sh"
-  home node['chef_server']['path']
-end
-
+include_recipe "chef-client::config"
 include_recipe "couchdb"
 include_recipe "java"
 include_recipe "chef-server::rabbitmq"
@@ -50,23 +46,6 @@ server_gems.each do |gem|
   end
 end
 
-chef_dirs = [
-  node['chef_server']['log_dir'],
-  node['chef_server']['path'],
-  node['chef_server']['cache_path'],
-  node['chef_server']['backup_path'],
-  node['chef_server']['run_path'],
-  "/etc/chef"
-]
-
-chef_dirs.each do |dir|
-  directory dir do
-    owner "chef"
-    group root_group
-    mode 0755
-  end
-end
-
 %w{ server solr }.each do |cfg|
   template "/etc/chef/#{cfg}.rb" do
     source "#{cfg}.rb.erb"
@@ -84,12 +63,6 @@ end
   end
 end
 
-directory node['chef_server']['path'] do
-  owner "chef"
-  group root_group
-  mode 0755
-end
-
 %w{ cache search_index }.each do |dir|
   directory "#{node['chef_server']['path']}/#{dir}" do
     owner "chef"
@@ -104,24 +77,11 @@ directory "/etc/chef/certificates" do
   mode 0700
 end
 
-directory node['chef_server']['run_path'] do
-  owner "chef"
-  group root_group
-  mode 0755
-end
-
 # install solr
 execute "chef-solr-installer" do
   command  "chef-solr-installer -c /etc/chef/solr.rb -u chef -g #{root_group}"
   path %w{ /usr/local/sbin /usr/local/bin /usr/sbin /usr/bin /sbin /bin }
   not_if { ::File.exists?("#{node['chef_server']['path']}/solr/home") }
-end
-
-directory node['chef_server']['run_path'] do
-  action :create
-  owner "chef"
-  group root_group
-  mode 0755
 end
 
 dist_dir = "redhat" 
@@ -154,8 +114,27 @@ server_services.each do |svc|
     )
   end
 
+  template "/etc/logrotate.d/#{svc}" do
+    source "#{dist_dir}/logrotate.d/#{svc}.logrotate.erb"
+    owner "root"
+    group "root"
+    mode 0644
+  end
+
   service "#{svc}" do
     supports :status => true
     action [ :enable, :start ]
+  end
+end
+
+%w{chef-expanderctl chef-expander-vnode chef-solr-rebuild}.each do |bin|
+  template "/usr/bin/#{bin}" do
+    source "rvm_wrapper.bin.erb"
+    owner "root"
+    group "root"
+    mode 0755
+    variables(
+      :binary => bin
+    )
   end
 end

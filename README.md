@@ -43,20 +43,23 @@ Getting Started
 Assuming root access on a fresh, basic, CentOS 5.6 install:
 
 
-!! setenforce 0
+1. Disable SELinux 
 
-1. Install the EPEL repositories for git
+        sed -i 's/SELINUX=enforcing/SELINUX=permissive/' /etc/sysconfig/selinux
+        setenforce 0
+
+2. Install the EPEL repositories for git
 
         rpm -Uvh http://download.fedora.redhat.com/pub/epel/5/i386/epel-release-5-4.noarch.rpm
 
-2. Install the rvm package
+3. Install the rvm package
 
         wget --no-check-certificate https://github.com/mdkent/rvm-rpm/raw/master/RPMS/noarch/rvm-ruby-1.6.3-1.el5.noarch.rpm
         yum localinstall --nogpgcheck rvm-ruby-1.6.3-1.el5.noarch.rpm
 
     This should install all the dependencies to build ruby
 
-3. Chose a ruby version and install, 1.9.2-p290 is the default for the bootstrap.
+4. Chose a ruby version and install, 1.9.2-p290 is the default for the bootstrap.
 
         rvm install 1.9.2-p290
 
@@ -65,11 +68,11 @@ Assuming root access on a fresh, basic, CentOS 5.6 install:
     > from your own repository (see above) where you can modify the config/db
     > file to point at an internal server.
 
-4. Next we use rvm to create an isolated gemset for Chef and install it
+5. Next we use rvm to create an isolated gemset for Chef and install it
 
         rvm 1.9.2-p290@chef gem install chef -v 0.10.2
 
-5. Now we can move on to the actual Chef install. First we need a temporary
+6. Now we can move on to the actual Chef install. First we need a temporary
    config for chef-solo to extract and execute our bootstrap cookbooks:
 
         cat<<EOF>solo.rb
@@ -78,7 +81,7 @@ Assuming root access on a fresh, basic, CentOS 5.6 install:
         cache_options({ :path => "/tmp/chef-solo/checksums", :skip_expires => true })
         EOF
 
-6. Next we either chose a type of chef server or a client install. First time
+7. Next we either chose a type of chef server or a client install. First time
    users should setup a 'Standard Server'. You can either download and modify
    the following JSON or pass it to chef-solo directly
    * [Standard Server](https://github.com/mdkent/chef-el-rvm-bootstrap/raw/master/chef-server-api-webui.json)
@@ -92,7 +95,7 @@ Assuming root access on a fresh, basic, CentOS 5.6 install:
     [obtained here](https://github.com/mdkent/chef-el-rvm-bootstrap/raw/master/chef-client.json)
     though this will likely need to be modified for the correct server_url.
 
-7. Finally we get to the bootstrap cookbooks. You can either
+8. Finally we get to the bootstrap cookbooks. You can either
    download them from
    [the packages page here](https://github.com/mdkent/chef-el-rvm-bootstrap/archives/master),
    build them from this repository with
@@ -104,7 +107,7 @@ Assuming root access on a fresh, basic, CentOS 5.6 install:
 
     http://cloud.github.com/downloads/mdkent/chef-el-rvm-bootstrap/chef-el-rvm-bootstrap-0.10.2-1.tar.gz
 
-8. We are all set to run the Chef bootstrap. chef-solo can be invoked with
+9. We are all set to run the Chef bootstrap. chef-solo can be invoked with
     local files:
 
         rvm 1.9.2-p290@chef exec chef-solo -c solo.rb \
@@ -121,7 +124,7 @@ Assuming chef-solo completes without incident you should now have a fully
 configured and functioning chef server or client.
 
 The server bootstrap does *not* enable the chef-client service by default as
-some may prefer to run it on demand. The chef_rvm::client_service recipe must be
+some may prefer to run it on demand. The chef-client::service recipe must be
 added to the server's run list to enable this.
 
 Also, before testing your server, be sure to disable the default firewall if

@@ -1,6 +1,7 @@
 #
-# Author:: Daniel DeLeo <dan@kallistec.com>
-# Author:: Joshua Timberman <joshua@opscode.com>
+# Modified By:: Matthew Kent
+# Original Author:: Daniel DeLeo <dan@kallistec.com>
+# Original Author:: Joshua Timberman <joshua@opscode.com>
 #
 # Cookbook Name:: rabbitmq
 # Recipe:: chef

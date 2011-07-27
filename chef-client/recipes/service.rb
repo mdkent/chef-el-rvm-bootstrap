@@ -1,6 +1,7 @@
 #
-# Author:: Joshua Timberman (<joshua@opscode.com>)
-# Author:: Seth Chisamore (<schisamo@opscode.com>)
+# Modified By:: Matthew Kent
+# Original Author:: Joshua Timberman (<joshua@opscode.com>)
+# Original Author:: Seth Chisamore (<schisamo@opscode.com>)
 # Cookbook Name:: chef
 # Recipe:: bootstrap_client
 #
@@ -19,7 +20,7 @@
 # limitations under the License.
 #
 
-root_group = "root"
+include_recipe "chef-client::config"
 
 # COOK-635 account for alternate gem paths
 # try to use the bin provided by the node attribute
@@ -33,15 +34,6 @@ elsif (chef_in_path=%x{which chef-client}.chomp) && ::File.executable?(chef_in_p
   client_bin = chef_in_path
 else
   raise "Could not locate the chef-client bin in any known path. Please set the proper path by overriding node['chef_client']['bin'] in a role."
-end
-
-%w{run_path cache_path backup_path log_dir}.each do |key|
-  directory node["chef_client"][key] do
-    recursive true
-    owner "root"
-    group root_group
-    mode 0755
-  end
 end
 
 dist_dir = "redhat"
@@ -62,14 +54,11 @@ template "/etc/#{conf_dir}/chef-client" do
   notifies :restart, "service[chef-client]", :delayed
 end
 
-template "/usr/bin/chef-client" do
-  source "rvm_wrapper.bin.erb"
+template "/etc/logrotate.d/chef-client" do
+  source "#{dist_dir}/logrotate.d/chef-client.logrotate.erb"
   owner "root"
   group "root"
-  mode 0755
-  variables(
-    :binary => "chef-client"
-  )
+  mode 0644
 end
 
 service "chef-client" do

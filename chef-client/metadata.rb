@@ -11,3 +11,5 @@ recipe            "chef-client::delete_validation", "Deletes validation.pem afte
 %w{ redhat centos }.each do |os|
   supports os
 end
+
+depends "ruby-shadow"

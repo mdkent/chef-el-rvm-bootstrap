@@ -1,7 +1,8 @@
 #
-# Author:: Christopher Walters <cw@opscode.com>
-# Author:: Nuo Yan <nuo@opscode.com>
-# Author:: Joshua Timberman <joshua@opscode.com>
+# Modified By:: Matthew Kent
+# Original Author:: Christopher Walters <cw@opscode.com>
+# Original Author:: Nuo Yan <nuo@opscode.com>
+# Original Author:: Joshua Timberman <joshua@opscode.com>
 # Cookbook Name:: gecode
 # Recipe:: default
 #
@@ -19,6 +20,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# Could use the repo, lets just to this for now.
 bash "install gecode" do
   cwd "/tmp"
   code <<-EOH

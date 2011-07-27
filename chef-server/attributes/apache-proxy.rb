@@ -1,5 +1,6 @@
 #
-# Author:: David Abdemoulaie <opscode@hobodave.com>
+# Modified By:: Matthew Kent
+# Original Author:: David Abdemoulaie <opscode@hobodave.com>
 # Cookbook Name:: chef-server
 # Attributes:: server_proxy
 #

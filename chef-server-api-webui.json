@@ -4,5 +4,7 @@
     "webui_enabled": true,
     "rvm_ruby": "1.9.2-p290@chef"
   },
-  "run_list": [ "recipe[chef-server::rubygems-install]" ]
+  "run_list": [
+    "recipe[chef-server::rubygems-install]"
+  ]
 }

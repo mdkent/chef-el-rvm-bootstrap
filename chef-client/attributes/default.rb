@@ -1,6 +1,7 @@
 #
-# Author:: Joshua Timberman (<joshua@opscode.com>)
-# Author:: Seth Chisamore (<schisamo@opscode.com>)
+# Modified By:: Matthew Kent
+# Original Author:: Joshua Timberman (<joshua@opscode.com>)
+# Original Author:: Seth Chisamore (<schisamo@opscode.com>)
 # Cookbook Name:: chef
 # Attributes:: default
 #
@@ -29,4 +30,6 @@ default["chef_client"]["validation_client_name"] = "chef-validator"
 default["chef_client"]["init_style"]  = "init"
 default["chef_client"]["run_path"]    = "/var/run/chef"
 default["chef_client"]["cache_path"]  = "/var/cache/chef"
-default["chef_client"]["backup_path"] = "/var/lib/chef"
+default["chef_client"]["backup_path"] = "/var/lib/chef/backup"
+
+default["chef_client"]["path"]        = "/var/lib/chef"

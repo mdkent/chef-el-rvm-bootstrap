@@ -1,6 +1,7 @@
 #
-# Author:: Joshua Timberman <joshua@opscode.com>
-# Author:: Joshua Sierles <joshua@37signals.com>
+# Modified By:: Matthew Kent
+# Original Author:: Joshua Timberman <joshua@opscode.com>
+# Original Author:: Joshua Sierles <joshua@37signals.com>
 # Cookbook Name:: chef-server
 # Recipe:: default
 #
