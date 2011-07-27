@@ -42,6 +42,9 @@ Getting Started
 
 Assuming root access on a fresh, basic, CentOS 5.6 install:
 
+
+!! setenforce 0
+
 1. Install the EPEL repositories for git
 
         rpm -Uvh http://download.fedora.redhat.com/pub/epel/5/i386/epel-release-5-4.noarch.rpm
@@ -53,9 +56,9 @@ Assuming root access on a fresh, basic, CentOS 5.6 install:
 
     This should install all the dependencies to build ruby
 
-3. Chose a ruby version and install, 1.9.2-p180 is the default for the bootstrap.
+3. Chose a ruby version and install, 1.9.2-p290 is the default for the bootstrap.
 
-        rvm install 1.9.2-p180
+        rvm install 1.9.2-p290
 
     > By default rvm will connect to the internet to download the ruby packages
     > to compile. If this is a problem you should install your own copy of rvm
@@ -64,7 +67,7 @@ Assuming root access on a fresh, basic, CentOS 5.6 install:
 
 4. Next we use rvm to create an isolated gemset for Chef and install it
 
-        rvm 1.9.2-p180@chef gem install chef -v 0.9.16
+        rvm 1.9.2-p290@chef gem install chef -v 0.10.2
 
 5. Now we can move on to the actual Chef install. First we need a temporary
    config for chef-solo to extract and execute our bootstrap cookbooks:
@@ -99,20 +102,20 @@ Assuming root access on a fresh, basic, CentOS 5.6 install:
     or, by picking the right url to make chef-solo happy (open-uri doesn't like
     the github redirect), reference them directly via
 
-    http://cloud.github.com/downloads/mdkent/chef-el-rvm-bootstrap/chef-el-rvm-bootstrap-0.9.16-1.tar.gz
+    http://cloud.github.com/downloads/mdkent/chef-el-rvm-bootstrap/chef-el-rvm-bootstrap-0.10.2-1.tar.gz
 
 8. We are all set to run the Chef bootstrap. chef-solo can be invoked with
     local files:
 
-        rvm 1.9.2-p180@chef exec chef-solo -c solo.rb \
+        rvm 1.9.2-p290@chef exec chef-solo -c solo.rb \
             -j chef-server-api-webui.json \
-            -r chef-el-rvm-bootstrap-0.9.16-1.tar.gz 
+            -r chef-el-rvm-bootstrap-0.10.2-1.tar.gz 
 
     or looking at remote urls:
 
-        rvm 1.9.2-p180@chef exec chef-solo -c solo.rb \
+        rvm 1.9.2-p290@chef exec chef-solo -c solo.rb \
             -j https://github.com/mdkent/chef-el-rvm-bootstrap/raw/master/chef-server-api-webui.json \
-            -r http://cloud.github.com/downloads/mdkent/chef-el-rvm-bootstrap/chef-el-rvm-bootstrap-0.9.16-1.tar.gz
+            -r http://cloud.github.com/downloads/mdkent/chef-el-rvm-bootstrap/chef-el-rvm-bootstrap-0.10.2-1.tar.gz
 
 Assuming chef-solo completes without incident you should now have a fully
 configured and functioning chef server or client.

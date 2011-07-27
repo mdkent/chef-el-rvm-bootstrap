@@ -20,7 +20,7 @@
 #
 
 define :web_app, :template => "web_app.conf.erb" do
-  
+ 
   application_name = params[:name]
 
   include_recipe "apache2"
