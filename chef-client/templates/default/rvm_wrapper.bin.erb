@@ -1,0 +1,2 @@
+#!/bin/bash
+exec <%= node['chef_server']['rvm_binary'] %> <%= node['chef_server']['rvm_ruby'] %> exec <%= @binary %> $@
