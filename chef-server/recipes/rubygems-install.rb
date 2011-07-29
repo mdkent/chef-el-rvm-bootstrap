@@ -22,7 +22,7 @@
 # limitations under the License.
 #
 
-recipe_name = self.recipe_name                                                  
+recipe_name = self.recipe_name
 cookbook_name = self.cookbook_name
 
 include_recipe "chef-client::config"
@@ -45,25 +45,50 @@ chef_version = node['chef_packages']['chef']['version']
 
 server_gems.each do |gem|
   gem_package gem do
-    version chef_version 
+    version chef_version
   end
 end
 
-%w{ server solr }.each do |cfg|
-  template "#{node['chef_server']['conf_dir']}/#{cfg}.rb" do
-    source "#{cfg}.rb.erb"
-    owner "chef"
-    group "root" 
-    mode 0600
+server_services.each do |svc|
+  service "#{svc}" do
+    action :nothing 
   end
+end
 
-  link "#{node['chef_server']['conf_dir']}/webui.rb" do
-    to "#{node['chef_server']['conf_dir']}/server.rb"
+template "#{node['chef_server']['conf_dir']}/server.rb" do
+  source "server.rb.erb"
+  owner "chef"
+  group "root"
+  mode 0600
+  variables(
+    :recipe_name => recipe_name,
+    :cookbook_name => cookbook_name
+  )
+  notifies :restart, "service[chef-server]", :delayed
+  if node['chef_server']['webui_enabled']
+    notifies :restart, "service[chef-server-webui]", :delayed
   end
+end
 
-  link "#{node['chef_server']['conf_dir']}/expander.rb" do
-    to "#{node['chef_server']['conf_dir']}/solr.rb"
-  end
+template "#{node['chef_server']['conf_dir']}/solr.rb" do
+  source "solr.rb.erb"
+  owner "chef"
+  group "root"
+  mode 0600
+  variables(
+    :recipe_name => recipe_name,
+    :cookbook_name => cookbook_name
+  )
+  notifies :restart, "service[chef-solr]", :delayed
+  notifies :restart, "service[chef-expander]", :delayed
+end
+
+link "#{node['chef_server']['conf_dir']}/webui.rb" do
+  to "#{node['chef_server']['conf_dir']}/server.rb"
+end
+
+link "#{node['chef_server']['conf_dir']}/expander.rb" do
+  to "#{node['chef_server']['conf_dir']}/solr.rb"
 end
 
 %w{ cache search_index }.each do |dir|
