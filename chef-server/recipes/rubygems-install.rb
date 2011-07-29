@@ -22,7 +22,8 @@
 # limitations under the License.
 #
 
-root_group = "root" 
+recipe_name = self.recipe_name                                                  
+cookbook_name = self.cookbook_name
 
 include_recipe "chef-client::config"
 include_recipe "couchdb"
@@ -40,68 +41,63 @@ if node['chef_server']['webui_enabled']
   server_services << "chef-server-webui"
 end
 
+chef_version = node['chef_packages']['chef']['version']
+
 server_gems.each do |gem|
   gem_package gem do
-    version node['chef_packages']['chef']['version']
+    version chef_version 
   end
 end
 
 %w{ server solr }.each do |cfg|
-  template "/etc/chef/#{cfg}.rb" do
+  template "#{node['chef_server']['conf_dir']}/#{cfg}.rb" do
     source "#{cfg}.rb.erb"
     owner "chef"
-    group root_group
+    group "root" 
     mode 0600
   end
 
-  link "/etc/chef/webui.rb" do
-    to "/etc/chef/server.rb"
+  link "#{node['chef_server']['conf_dir']}/webui.rb" do
+    to "#{node['chef_server']['conf_dir']}/server.rb"
   end
 
-  link "/etc/chef/expander.rb" do
-    to "/etc/chef/solr.rb"
+  link "#{node['chef_server']['conf_dir']}/expander.rb" do
+    to "#{node['chef_server']['conf_dir']}/solr.rb"
   end
 end
 
 %w{ cache search_index }.each do |dir|
   directory "#{node['chef_server']['path']}/#{dir}" do
     owner "chef"
-    group root_group
+    group "root"
     mode 0755
   end
 end
 
-directory "/etc/chef/certificates" do
+directory "#{node['chef_server']['conf_dir']}/certificates" do
   owner "chef"
-  group root_group
+  group "root"
   mode 0700
 end
 
 # install solr
 execute "chef-solr-installer" do
-  command  "chef-solr-installer -c /etc/chef/solr.rb -u chef -g #{root_group}"
+  command  "chef-solr-installer -c #{node['chef_server']['conf_dir']}/solr.rb -u chef -g root"
   path %w{ /usr/local/sbin /usr/local/bin /usr/sbin /usr/bin /sbin /bin }
   not_if { ::File.exists?("#{node['chef_server']['path']}/solr/home") }
 end
 
-dist_dir = "redhat" 
-conf_dir = "sysconfig" 
-
-chef_version = node['chef_packages']['chef']['version']
 gems_dir = node['languages']['ruby']['gems_dir']
 
 server_services.each do |svc|
-  init_content = IO.read("#{gems_dir}/gems/chef-#{chef_version}/distro/#{dist_dir}/etc/init.d/#{svc}")
-  conf_content = IO.read("#{gems_dir}/gems/chef-#{chef_version}/distro/#{dist_dir}/etc/#{conf_dir}/#{svc}")
-
-  file "/etc/init.d/#{svc}" do
-    content init_content
+  template "/etc/init.d/#{svc}" do
+    source "redhat/init.d/#{svc}.erb"
     mode 0755
-  end
-
-  file "/etc/#{conf_dir}/#{svc}" do
-    content conf_content
-    mode 0644
+    variables(
+      :recipe_name => recipe_name,
+      :cookbook_name => cookbook_name
+    )
+    notifies :restart, "service[#{svc}]", :delayed
   end
 
   template "/usr/bin/#{svc}" do
@@ -110,14 +106,20 @@ server_services.each do |svc|
     group "root"
     mode 0755
     variables(
+      :recipe_name => recipe_name,
+      :cookbook_name => cookbook_name,
       :binary => svc
     )
   end
 
   template "/etc/logrotate.d/#{svc}" do
-    source "#{dist_dir}/logrotate.d/#{svc}.logrotate.erb"
+    source "redhat/logrotate.d/#{svc}.erb"
     owner "root"
     group "root"
+    variables(
+      :recipe_name => recipe_name,
+      :cookbook_name => cookbook_name
+    )
     mode 0644
   end
 
@@ -134,6 +136,8 @@ end
     group "root"
     mode 0755
     variables(
+      :recipe_name => recipe_name,
+      :cookbook_name => cookbook_name,
       :binary => bin
     )
   end

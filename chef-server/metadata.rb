@@ -1,5 +1,5 @@
-maintainer        "Opscode, Inc."
-maintainer_email  "cookbooks@opscode.com"
+maintainer        "Matthew Kent"
+maintainer_email  "mkent@magoazul.com"
 license           "Apache 2.0"
 description       "Installs and configures Chef Server"
 version           "0.1"

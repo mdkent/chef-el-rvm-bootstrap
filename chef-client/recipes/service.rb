@@ -20,45 +20,30 @@
 # limitations under the License.
 #
 
+recipe_name = self.recipe_name
+cookbook_name = self.cookbook_name
+
 include_recipe "chef-client::config"
 
-# COOK-635 account for alternate gem paths
-# try to use the bin provided by the node attribute
-if ::File.executable?(node["chef_client"]["bin"])
-  client_bin = node["chef_client"]["bin"]
-# search for the bin in some sane paths
-elsif (chef_in_sane_path=Chef::Client::SANE_PATHS.map{|p| p="#{p}/chef-client";p if ::File.executable?(p)}.compact.first) && chef_in_sane_path
-  client_bin = chef_in_sane_path
-# last ditch search for a bin in PATH
-elsif (chef_in_path=%x{which chef-client}.chomp) && ::File.executable?(chef_in_path)
-  client_bin = chef_in_path
-else
-  raise "Could not locate the chef-client bin in any known path. Please set the proper path by overriding node['chef_client']['bin'] in a role."
-end
-
-dist_dir = "redhat"
-conf_dir = "sysconfig"
-
 template "/etc/init.d/chef-client" do
-  source "#{dist_dir}/init.d/chef-client.erb"
+  source "redhat/init.d/chef-client.erb"
   mode 0755
   variables(
-    :client_bin => client_bin
+    :recipe_name => recipe_name,
+    :cookbook_name => cookbook_name
   )
   notifies :restart, "service[chef-client]", :delayed
 end
 
-template "/etc/#{conf_dir}/chef-client" do
-  source "#{dist_dir}/#{conf_dir}/chef-client.erb"
-  mode 0644
-  notifies :restart, "service[chef-client]", :delayed
-end
-
 template "/etc/logrotate.d/chef-client" do
-  source "#{dist_dir}/logrotate.d/chef-client.logrotate.erb"
+  source "redhat/logrotate.d/chef-client.logrotate.erb"
   owner "root"
   group "root"
   mode 0644
+  variables(
+    :recipe_name => recipe_name,
+    :cookbook_name => cookbook_name
+  )
 end
 
 service "chef-client" do

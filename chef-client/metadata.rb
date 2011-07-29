@@ -1,5 +1,5 @@
-maintainer        "Opscode, Inc."
-maintainer_email  "cookbooks@opscode.com"
+maintainer        "Matthew Kent"
+maintainer_email  "mkent@magoazul.com"
 license           "Apache 2.0"
 description       "Manages aspects of only chef-client"
 version           "0.1"
@@ -12,4 +12,6 @@ recipe            "chef-client::delete_validation", "Deletes validation.pem afte
   supports os
 end
 
-depends "ruby-shadow"
+%w{ ohai ruby-shadow }.each do |cb|
+  depends cb
+end

@@ -21,7 +21,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-chef_node_name = Chef::Config[:node_name] == node["fqdn"] ? false : Chef::Config[:node_name]
+recipe_name = self.recipe_name
+cookbook_name = self.cookbook_name
+
+chef_node_name = Chef::Config[:node_name] == node['fqdn'] ? false : Chef::Config[:node_name]
+
+gem_package "chef" do
+  version node['chef_packages']['chef']['version']
+end
 
 user "chef" do
   system true
@@ -43,8 +50,23 @@ template "#{node["chef_client"]["conf_dir"]}/client.rb" do
   owner "root"
   group "root"
   mode 0644
-  variables :chef_node_name => chef_node_name
+  variables(
+    :recipe_name => recipe_name,
+    :cookbook_name => cookbook_name,
+    :chef_node_name => chef_node_name
+  )
   notifies :create, "ruby_block[reload_client_config]"
+end
+
+template "#{node["chef_client"]["conf_dir"]}/solo.rb" do
+  source "solo.rb.erb"
+  owner "root"
+  group "root"
+  mode 0644
+  variables(
+    :recipe_name => recipe_name,
+    :cookbook_name => cookbook_name
+  )
 end
 
 ruby_block "reload_client_config" do
@@ -61,6 +83,8 @@ end
     group "root"
     mode 0755
     variables(
+      :recipe_name => recipe_name,
+      :cookbook_name => cookbook_name,
       :binary => bin
     )
   end

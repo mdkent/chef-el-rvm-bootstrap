@@ -33,21 +33,21 @@ include_recipe "apache2::mod_headers"
 include_recipe "apache2::mod_expires"
 include_recipe "apache2::mod_deflate"
 
-directory "/etc/chef/certificates" do
+directory "#{node['chef_server']['conf_dir']}/certificates" do
   owner "chef"
   group "root"
   mode "700"
 end
 
 bash "Create SSL Certificates" do
-  cwd "/etc/chef/certificates"
+  cwd "#{node['chef_server']['conf_dir']}/certificates"
   code <<-EOH
   umask 077
   openssl genrsa 2048 > chef-server-proxy.key
   openssl req -subj "#{node['chef_server']['ssl_req']}" -new -x509 -nodes -sha1 -days 3650 -key chef-server-proxy.key > chef-server-proxy.crt
   cat chef-server-proxy.key chef-server-proxy.crt > chef-server-proxy.pem
   EOH
-  not_if { ::File.exists?("/etc/chef/certificates/chef-server-proxy.pem") }
+  not_if { ::File.exists?("#{node['chef_server']['conf_dir']}/certificates/chef-server-proxy.pem") }
 end
 
 web_app "chef-server-proxy" do

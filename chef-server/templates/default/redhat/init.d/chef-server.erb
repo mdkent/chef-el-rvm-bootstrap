@@ -6,40 +6,39 @@
 # Cookbook: <%= @cookbook_name %>
 # Recipe: <%= @recipe_name %>
 #
-# chef-client Startup script for the Chef client
+# chef-server Startup script for chef-server
 #
-# chkconfig: - 98 02
-# description: Client component of the Chef systems integration framework.
+# chkconfig: - 96 04
+# description: Server component of the Chef systems integration framework.
 
 ### BEGIN INIT INFO
-# Provides: chef-client
-# Required-Start: $local_fs $network $remote_fs
-# Required-Stop: $local_fs $network $remote_fs
+# Provides: chef-server
+# Required-Start: $local_fs $network $remote_fs chef-solr chef-solr-indexer
+# Required-Stop: $local_fs $network $remote_fs chef-solr chef-solr-indexer
 # Should-Start: $named $time
 # Should-Stop: $named $time
-# Short-Description: Startup script for the Chef client
-# Description: Client component of the Chef systems integration framework.
+# Short-Description: Startup script for chef-server 
+# Description: Server component of the Chef systems integration framework.
 ### END INIT INFO
 
 # Source function library
 . /etc/init.d/functions
 
-exec="/usr/bin/chef-client"
-prog="chef-client"
+exec="/usr/bin/chef-server"
+prog="chef-server"
 
-# Configuration file for the chef-client service
-config=<%= node['chef_client']['conf_dir'] %>/client.rb
-pidfile=<%= node['chef_client']['run_path'] %>/client.pid
+# Configuration file for the chef-server service
+config=<%= node['chef_server']['conf_dir'] %>/server.rb
+pidfile=<%= node['chef_server']['run_path'] %>/server.main.pid
 lockfile=/var/lock/subsys/$prog
-logfile=<%= node['chef_client']['log_dir'] %>/client.log
-# Sleep interval between runs.
-# This value is in seconds.
-interval=<%= node['chef_client']['interval'] %>
-# Maximum amount of random delay before starting a run. Prevents every client
-# from contacting the server at the exact same time.
-# This value is in seconds.
-splay=<%= node['chef_client']['splay'] %>
-# Any additional chef-client options.
+logfile=<%= node['chef_server']['log_dir'] %>/server.log
+port=<%= node['chef_server']['api_port'] %>
+env=production
+adapter=thin
+childpidfiles=<%= node['chef_server']['run_path'] %>/server.%s.pid
+user=chef
+group=chef
+# Any additional chef-server options.
 options=
 
 start() {
@@ -47,8 +46,8 @@ start() {
     [ -f $config ] || exit 6
     echo -n $"Starting $prog: "
     daemon \
-      $prog -d -c "$config" -L "$logfile" -i "$interval" -s "$splay" \
-            -P "$pidfile" "$options"
+      $prog -d -C "$config" -L "$logfile" -p "$port" -e "$env" -a "$adapter" \
+            -P "$childpidfiles" -u "$user" -G "$group" "$options" "&>/dev/null"
     retval=$?
     echo
     [ $retval -eq 0 ] && touch $lockfile
@@ -57,7 +56,7 @@ start() {
 
 stop() {
     echo -n $"Stopping $prog: "
-    killproc -p $pidfile $prog
+    killproc -p $pidfile $prog 
     retval=$?
     echo
     [ $retval -eq 0 ] && rm -f $lockfile
