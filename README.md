@@ -1,5 +1,5 @@
-Chef Enterprise Linux Bootstrap
-===============================
+Chef Enterprise Linux RVM Bootstrap
+===================================
 
 Alternative CentOS/RHEL Chef client/server rubygems bootstrap using
 [rvm](http://rvm.beginrescueend.com/).
@@ -14,7 +14,9 @@ rubygems based Chef client or server installation on Enterprise Linux
 
 These cookbooks were originally duplicated from the official Opscode repository
 and have been modified to remove support for other distributions that may not
-be compatible with this approach and for which I don't have time to test.
+be compatible with this approach and for which I don't have time to test. The
+README files have also been stripped, as they often don't reflect the current
+state of the cookbooks.
 
 
 Goal
@@ -39,6 +41,9 @@ Supported Distributions
 
 Getting Started
 ---------------
+
+If you used the previous 0.9.* series Chef Enterprise Linux RVM Bootstrap please
+see the Upgrading sections below.
 
 Assuming root access on a fresh, basic, CentOS 5.6 install:
 
@@ -121,8 +126,12 @@ Assuming root access on a fresh, basic, CentOS 5.6 install:
             -j https://github.com/mdkent/chef-el-rvm-bootstrap/raw/master/chef-server-api-webui.json \
             -r http://cloud.github.com/downloads/mdkent/chef-el-rvm-bootstrap/chef-el-rvm-bootstrap-0.10.2-1.tar.gz
 
-Assuming chef-solo completes without incident you should now have a fully
-configured and functioning chef server or client.
+If the process stops with a complaint and some instructions, such as an
+existing apache install, complete the instructions and run chef-solo again with
+the same parameters.
+
+Assuming chef-solo (eventually) completes without incident you should now have
+a fully configured and functioning chef server or client.
 
 The server bootstrap does *not* enable the chef-client service by default as
 some may prefer to run it on demand. The chef-client::service recipe must be
@@ -133,12 +142,46 @@ it's running with
 
     service iptables stop
 
-Congratulations, the bootstrap is done - you can now move on to configuring your
-copy of 
+Congratulations, the bootstrap is done - you can now move on to configuring
+your copy of 
 [knife](http://help.opscode.com/kb/chefbasics/knife)
 as per the
 [Opscode wiki](http://wiki.opscode.com/display/chef/Bootstrap+Chef+RubyGems+Installation#BootstrapChefRubyGemsInstallation-ConfiguretheCommandLineClient)
 and start uploading some cookbooks!
+
+
+Server Upgrade
+--------------
+
+Unfortunately there's not one clear path to upgrading because of the
+flexibility of this install process. There are a couple typical scenarios
+though:
+
+If you've used this bootstrap to setup a server which doesn't manage itself via 
+chef-client, you can probably rerun the bootstrap while adding the
+"chef-server::upgrade" recipe to the run list. In testing this installed
+properly overtop of the existing server after a few repeated chef-solo runs - 
+although chef-server and chef-server-webui did need a manual restart.
+
+If you've used this boostrap and its cookbooks as a base for your own cookbook
+repository you'll need to manually diff the cookbooks for any changes against
+your own copies. You'll then need to handle the split of chef_rvm into
+chef-server/chef-client, and likely employ something like 
+[chef-rvm](https://github.com/fnichol/chef-rvm) to handle the ruby upgrade. 
+You'll likely want to expand on the "chef-server::upgrade" recipe to handle this
+process. This will be time consuming. 
+
+Alternately you can always fire up a new chef-server and import your existing
+data.
+
+
+Client Upgrade
+--------------
+
+This is dependant on your existing install, you can run the bootstrap overtop
+of your existing setup or use the updated cookbooks in your Chef repository to
+automate the upgrade. Please see the Server Upgrade section for more
+background.
 
 
 Helpful Hints
