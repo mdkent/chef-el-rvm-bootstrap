@@ -123,7 +123,7 @@ Assuming root access on a fresh, basic, CentOS 5.6 install:
     or looking at remote urls:
 
         rvm 1.9.2-p290@chef exec chef-solo -c solo.rb \
-            -j https://github.com/mdkent/chef-el-rvm-bootstrap/raw/master/chef-server-api-webui.json \
+            -j https://raw.github.com/mdkent/chef-el-rvm-bootstrap/master/chef-server-api-webui.json \
             -r http://cloud.github.com/downloads/mdkent/chef-el-rvm-bootstrap/chef-el-rvm-bootstrap-0.10.2-1.tar.gz
 
 If the process stops with a complaint and some instructions, such as an
