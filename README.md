@@ -85,6 +85,7 @@ Assuming root access on a fresh, basic, CentOS 5.6 install:
         cookbook_path "/tmp/chef-solo/cookbooks"
         cache_options({ :path => "/tmp/chef-solo/checksums", :skip_expires => true })
         file_backup_path "/tmp/chef-solo/backup"
+        umask 0022
         EOF
 
 7. Next we either chose a type of chef server or a client install. First time
