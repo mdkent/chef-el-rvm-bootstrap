@@ -36,7 +36,7 @@ template "/etc/init.d/chef-client" do
 end
 
 template "/etc/logrotate.d/chef-client" do
-  source "redhat/logrotate.d/chef-client.logrotate.erb"
+  source "redhat/logrotate.d/chef-client.erb"
   owner "root"
   group "root"
   mode 0644
