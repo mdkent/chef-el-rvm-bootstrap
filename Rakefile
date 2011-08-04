@@ -2,7 +2,7 @@ require 'rake/packagetask'
 require 'find'
 
 PACKAGE_NAME = "chef-el-rvm-bootstrap"
-PACKAGE_VERSION="0.10.2-1"
+PACKAGE_VERSION="0.10.2-2"
 PACKAGE_FULL="#{PACKAGE_NAME}-#{PACKAGE_VERSION}"
 PACKAGE_DIR = "tmp"
 INCLUDE_FILES = "**/*"
