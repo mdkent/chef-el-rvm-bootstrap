@@ -59,8 +59,8 @@ Assuming root access on a fresh, basic, CentOS 5.6 install:
 
 3. Install the rvm package
 
-        wget --no-check-certificate https://raw.github.com/mdkent/rvm-rpm/master/RPMS/noarch/rvm-ruby-1.6.3-1.el5.noarch.rpm
-        yum localinstall --nogpgcheck rvm-ruby-1.6.3-1.el5.noarch.rpm
+        wget --no-check-certificate https://raw.github.com/mdkent/rvm-rpm/master/RPMS/noarch/rvm-ruby-1.6.32-1.el5.noarch.rpm
+        yum localinstall --nogpgcheck rvm-ruby-1.6.32-1.el5.noarch.rpm
 
     This should install all the dependencies to build ruby
 
