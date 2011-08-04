@@ -112,20 +112,20 @@ Assuming root access on a fresh, basic, CentOS 5.6 install:
     or, by picking the right url to make chef-solo happy (open-uri doesn't like
     the github redirect), reference them directly via
 
-    http://cloud.github.com/downloads/mdkent/chef-el-rvm-bootstrap/chef-el-rvm-bootstrap-0.10.2-1.tar.gz
+    http://cloud.github.com/downloads/mdkent/chef-el-rvm-bootstrap/chef-el-rvm-bootstrap-0.10.2-2.tar.gz
 
 9. We are all set to run the Chef bootstrap. chef-solo can be invoked with
     local files:
 
         rvm 1.9.2-p290@chef exec chef-solo -c solo.rb \
             -j chef-server-api-webui.json \
-            -r chef-el-rvm-bootstrap-0.10.2-1.tar.gz 
+            -r chef-el-rvm-bootstrap-0.10.2-2.tar.gz 
 
     or looking at remote urls:
 
         rvm 1.9.2-p290@chef exec chef-solo -c solo.rb \
             -j https://raw.github.com/mdkent/chef-el-rvm-bootstrap/master/chef-server-api-webui.json \
-            -r http://cloud.github.com/downloads/mdkent/chef-el-rvm-bootstrap/chef-el-rvm-bootstrap-0.10.2-1.tar.gz
+            -r http://cloud.github.com/downloads/mdkent/chef-el-rvm-bootstrap/chef-el-rvm-bootstrap-0.10.2-2.tar.gz
 
 If the process stops with a complaint and some instructions, such as an
 existing apache install, complete the instructions and run chef-solo again with
