@@ -151,6 +151,14 @@ as per the
 and start uploading some cookbooks!
 
 
+Known Issues
+------------
+
+* Warning from rubygems 1.8.6: "NOTE: Gem.source_index is deprecated, use 
+  Specification. It will be removed on or after 2011-11-01."
+  http://tickets.opscode.com/browse/CHEF-2328
+
+
 Server Upgrade
 --------------
 
