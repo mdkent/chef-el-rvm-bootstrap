@@ -59,7 +59,7 @@ Assuming root access on a fresh, basic, CentOS 5.6 install:
 
 3. Install the rvm package
 
-        wget --no-check-certificate https://github.com/mdkent/rvm-rpm/raw/master/RPMS/noarch/rvm-ruby-1.6.3-1.el5.noarch.rpm
+        wget --no-check-certificate https://raw.github.com/mdkent/rvm-rpm/master/RPMS/noarch/rvm-ruby-1.6.3-1.el5.noarch.rpm
         yum localinstall --nogpgcheck rvm-ruby-1.6.3-1.el5.noarch.rpm
 
     This should install all the dependencies to build ruby
@@ -91,15 +91,15 @@ Assuming root access on a fresh, basic, CentOS 5.6 install:
 7. Next we either chose a type of chef server or a client install. First time
    users should setup a 'Standard Server'. You can either download and modify
    the following JSON or pass it to chef-solo directly
-   * [Standard Server](https://github.com/mdkent/chef-el-rvm-bootstrap/raw/master/chef-server-api-webui.json)
+   * [Standard Server](https://raw.github.com/mdkent/chef-el-rvm-bootstrap/master/chef-server-api-webui.json)
      - API and WebUI
-   * [Standard Server + Proxy](https://github.com/mdkent/chef-el-rvm-bootstrap/raw/master/chef-server-api-webui-proxy.json)
+   * [Standard Server + Proxy](https://raw.github.com/mdkent/chef-el-rvm-bootstrap/master/chef-server-api-webui-proxy.json)
      - API and WebUI with an Apache proxy in front good for public facing access
-   * [Minimal Server](https://github.com/mdkent/chef-el-rvm-bootstrap/raw/master/chef-server-api.json)
+   * [Minimal Server](https://raw.github.com/mdkent/chef-el-rvm-bootstrap/master/chef-server-api.json)
      - only API
 
     Alternately a client install can be
-    [obtained here](https://github.com/mdkent/chef-el-rvm-bootstrap/raw/master/chef-client.json)
+    [obtained here](https://raw.github.com/mdkent/chef-el-rvm-bootstrap/master/chef-client.json)
     though this will likely need to be modified for the correct server_url.
 
 8. Finally we get to the bootstrap cookbooks. You can either
