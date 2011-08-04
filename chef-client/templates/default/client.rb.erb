@@ -114,6 +114,7 @@ ENV['HTTP_PROXY'] = "<%= node['chef_client']['http_proxy'] %>"
 
 Ohai::Config[:plugin_path] << "<%= node['ohai']['plugin_path'] %>"
 <% end -%>
+<% if node.attribute?("ohai") && node['ohai'].attribute?("disabled_plugins") -%>
 
-# Don't run this by default - some system have 60k of accounts
-Ohai::Config[:disabled_plugins] = [ 'passwd' ]
+Ohai::Config[:disabled_plugins] = [<%= node['ohai']['disabled_plugins'].map {|x| "\"#{x}\"" }.join(",") %>]
+<% end -%>

@@ -19,3 +19,6 @@
 
 # FHS location would be /var/lib/chef/ohai_plugins or similar.
 default["ohai"]["plugin_path"] = "/etc/chef/ohai_plugins"
+
+# Don't run this by default - some systems have 60k of accounts
+default["ohai"]["disabled_plugins"] = [ "passwd" ]
