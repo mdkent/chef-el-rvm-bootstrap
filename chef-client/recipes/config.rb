@@ -92,3 +92,23 @@ end
 
 # Required for user password management
 include_recipe "ruby-shadow::source"
+
+%w{
+  chef-client.8 chef-solo.8 knife.1 knife-bootstrap.1
+  knife-client.1 knife-configure.1 knife-cookbook.1 knife-cookbook-site.1
+  knife-data-bag.1 knife-environment.1 knife-exec.1 knife-index.1
+  knife-node.1 knife-role.1 knife-search.1 knife-ssh.1
+  knife-status.1 knife-tag.1 shef.1
+}.each do |man|
+  type = man.split('.')[1]
+  man_dir = File.join(node["chef_packages"]["chef"]["chef_root"], "..", "distro/common/man/man#{type}")
+  src = File.join(man_dir, man)
+  dst = File.join("/usr/share/man/man#{type}", man)
+
+  man_content = IO.read(src)
+
+  file dst do
+    content man_content
+    mode 0644
+  end
+end

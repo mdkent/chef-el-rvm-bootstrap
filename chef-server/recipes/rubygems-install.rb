@@ -167,3 +167,20 @@ end
     )
   end
 end
+
+%w{
+  chef-expanderctl.8 chef-solr.8 chef-server.8 chef-server-webui.8
+  chef-expander.8
+}.each do |man|
+  type = man.split('.')[1]
+  man_dir = File.join(node["chef_packages"]["chef"]["chef_root"], "..", "distro/common/man/man#{type}")
+  src = File.join(man_dir, man)
+  dst = File.join("/usr/share/man/man#{type}", man)
+
+  man_content = IO.read(src)
+
+  file dst do
+    content man_content
+    mode 0644
+  end
+end
