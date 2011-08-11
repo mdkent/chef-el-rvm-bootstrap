@@ -184,3 +184,16 @@ end
     mode 0644
   end
 end
+
+# temporary fix for http://tickets.opscode.com/browse/CHEF-2346
+template File.join(node['chef_server']['path'], "solr/home/conf/solrconfig.xml") do
+  source "solrconfig.xml.erb"
+  owner "chef"
+  group "root"
+  mode 0644
+  variables(
+    :recipe_name => recipe_name,
+    :cookbook_name => cookbook_name
+  )
+  notifies :restart, "service[chef-solr]", :delayed
+end
