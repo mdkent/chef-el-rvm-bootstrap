@@ -187,7 +187,7 @@ data.
 Client Upgrade
 --------------
 
-This is dependant on your existing install, you can run the bootstrap overtop
+This is dependent on your existing install, you can run the bootstrap overtop
 of your existing setup or use the updated cookbooks in your Chef repository to
 automate the upgrade. Please see the Server Upgrade section for more
 background.
