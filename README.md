@@ -35,6 +35,7 @@ ruby or its dependencies.
 Supported Distributions
 -----------------------
 
+* CentOS 5.7
 * CentOS 5.6
 * CentOS 5.5
 
@@ -59,8 +60,8 @@ Assuming root access on a fresh, basic, CentOS 5.6 install:
 
 3. Install the rvm package
 
-        wget --no-check-certificate https://raw.github.com/mdkent/rvm-rpm/master/RPMS/noarch/rvm-ruby-1.6.32-1.el5.noarch.rpm
-        yum localinstall --nogpgcheck rvm-ruby-1.6.32-1.el5.noarch.rpm
+        wget --no-check-certificate https://github.com/mdkent/rvm-rpm/raw/master/RPMS/noarch/rvm-ruby-1.10.0-2.el5.centos.noarch.rpm
+        yum localinstall --nogpgcheck rvm-ruby-1.10.0-2.el5.centos.noarch.rpm 
 
     This should install all the dependencies to build ruby
 
@@ -75,7 +76,7 @@ Assuming root access on a fresh, basic, CentOS 5.6 install:
 
 5. Next we use rvm to create an isolated gemset for Chef and install it
 
-        rvm 1.9.2-p290@chef gem install chef -v 0.10.4
+        rvm 1.9.2-p290@chef do gem install chef -v 0.10.8
 
 6. Now we can move on to the actual Chef install. First we need a temporary
    config for chef-solo to extract and execute our bootstrap cookbooks:
@@ -112,20 +113,20 @@ Assuming root access on a fresh, basic, CentOS 5.6 install:
     or, by picking the right url to make chef-solo happy (open-uri doesn't like
     the github redirect), reference them directly via
 
-    http://cloud.github.com/downloads/mdkent/chef-el-rvm-bootstrap/chef-el-rvm-bootstrap-0.10.4-1.tar.gz
+    http://cloud.github.com/downloads/mdkent/chef-el-rvm-bootstrap/chef-el-rvm-bootstrap-0.10.8-1.tar.gz
 
 9. We are all set to run the Chef bootstrap. chef-solo can be invoked with
     local files:
 
         rvm 1.9.2-p290@chef exec chef-solo -c solo.rb \
             -j chef-server-api-webui.json \
-            -r chef-el-rvm-bootstrap-0.10.4-1.tar.gz 
+            -r chef-el-rvm-bootstrap-0.10.8-1.tar.gz 
 
     or looking at remote urls:
 
         rvm 1.9.2-p290@chef exec chef-solo -c solo.rb \
             -j https://raw.github.com/mdkent/chef-el-rvm-bootstrap/master/chef-server-api-webui.json \
-            -r http://cloud.github.com/downloads/mdkent/chef-el-rvm-bootstrap/chef-el-rvm-bootstrap-0.10.4-1.tar.gz
+            -r http://cloud.github.com/downloads/mdkent/chef-el-rvm-bootstrap/chef-el-rvm-bootstrap-0.10.8-1.tar.gz
 
 If the process stops with a complaint and some instructions, such as an
 existing apache install, complete the instructions and run chef-solo again with
@@ -145,9 +146,9 @@ it's running with
 
 Congratulations, the bootstrap is done - you can now move on to configuring
 your copy of 
-[knife](http://help.opscode.com/kb/chefbasics/knife)
+[knife](http://wiki.opscode.com/display/chef/Knife)
 as per the
-[Opscode wiki](http://wiki.opscode.com/display/chef/Bootstrap+Chef+RubyGems+Installation#BootstrapChefRubyGemsInstallation-ConfiguretheCommandLineClient)
+[Opscode wiki](http://wiki.opscode.com/display/chef/Installing+Chef+Server+Manually#InstallingChefServerManually-ConfiguretheCommandLineClient)
 and start uploading some cookbooks!
 
 
